@@ -1,3 +1,4 @@
+"use client";
 import {
 	Avatar,
 	Button,
@@ -7,8 +8,11 @@ import {
 	Typography,
 } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+	const router = useRouter();
+
 	return (
 		<form>
 			<Container component="main" maxWidth="xs" className={"h-screen"}>
@@ -45,7 +49,12 @@ export default function Login() {
 						type="password"
 						autoComplete="password"
 					/>
-					<Button type="submit" fullWidth variant="contained">
+					<Button
+						type="submit"
+						fullWidth
+						variant="contained"
+						onClick={() => router.push("/activities")}
+					>
 						Login
 					</Button>
 				</Stack>
