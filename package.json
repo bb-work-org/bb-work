@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"tauri": "tauri"
+		"tauri-dev": "tauri dev"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.11.1",
