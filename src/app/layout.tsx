@@ -1,7 +1,7 @@
 "use client";
 import "./globals.css";
-import ThemeRegister from "@/components/ThemeRegister";
 import React from "react";
+import ThemeRegistry from "@/theme/theme-registry";
 
 export default function RootLayout({
 	children,
@@ -11,7 +11,9 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body>
-				<ThemeRegister>{children}</ThemeRegister>
+				<ThemeRegistry>
+					{children}
+				</ThemeRegistry>
 			</body>
 		</html>
 	);
