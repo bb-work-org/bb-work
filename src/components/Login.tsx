@@ -8,15 +8,32 @@ import {
 	Typography,
 } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
+import { login } from "@/lib/login";
 
 export default function Login() {
-	const router = useRouter();
 	const [loading, setLoading] = useState(false);
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+
+	function handleLogin(event: FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+
+		if (username === "" || password === "") {
+			return;
+		}
+
+		setLoading(true);
+
+		login(username, password)
+			.catch(() => {
+				console.error("Failed to login");
+			})
+			.finally(() => setLoading(false));
+	}
 
 	return (
-		<form>
+		<form onSubmit={(event) => handleLogin(event)}>
 			<Container component="main" maxWidth="xs" className={"h-screen"}>
 				<Stack
 					justifyContent={"center"}
@@ -42,6 +59,8 @@ export default function Login() {
 						id="rgm"
 						name="rgm"
 						label="RGM"
+						value={username}
+						onChange={(event) => setUsername(event.target.value)}
 					/>
 					<TextField
 						disabled={loading}
@@ -52,16 +71,14 @@ export default function Login() {
 						label="Password"
 						type="password"
 						autoComplete="password"
+						value={password}
+						onChange={(event) => setPassword(event.target.value)}
 					/>
 					<Button
 						disabled={loading}
 						type="submit"
 						fullWidth
 						variant="contained"
-						onClick={() => {
-							setLoading(true);
-							router.push("/activities");
-						}}
 					>
 						Login
 					</Button>
