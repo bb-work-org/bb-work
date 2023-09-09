@@ -4,13 +4,12 @@ import {signIn} from "@/redux/actions/auth-action";
 type AuthState = {
     loading: boolean,
     loggedIn: boolean,
-    cookies: string[]
+    bbSession?: string
 }
 
 const initialState: AuthState = {
     loading: false,
-    loggedIn: false,
-    cookies: []
+    loggedIn: false
 }
 
 const authSlice = createSlice({
@@ -24,7 +23,7 @@ const authSlice = createSlice({
         builder.addCase(signIn.fulfilled, (state, action) => {
             state.loading = false
             state.loggedIn = true
-            state.cookies = action.payload?.cookie ?? []
+            state.bbSession = action.payload?.bbSession
         })
         builder.addCase(signIn.rejected, (state) => {
             state.loading = false

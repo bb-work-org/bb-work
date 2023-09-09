@@ -1,6 +1,6 @@
-import { Body, fetch, ResponseType } from "@tauri-apps/api/http";
-import { getApi } from "@/utils/get-api";
-import { BBError } from "@/utils/handlers/bb-error";
+import {Body, fetch, ResponseType} from "@tauri-apps/api/http";
+import {getApi} from "@/utils/get-api";
+import {BBError} from "@/utils/handlers/bb-error";
 
 const NONCE_VALUE = "blackboard.platform.security.NonceUtil.nonce.ajax";
 
@@ -53,9 +53,6 @@ export const signIn = async (rgm: string, password: string) => {
     if (response.status !== 200 || response.url === getApi("/webapps/login/")) throw new BBError("Ocorreu um erro ao fazer login");
 
     return {
-        cookie: [
-            ...auth.cookies,
-            ...response.rawHeaders["set-cookie"].map((cookie: string) => cookie.split(";")[0])
-        ]
+        bbSession: response.rawHeaders["set-cookie"].filter((cookie: string) => cookie.startsWith("BbRouter="))[0].split(";")[0].split("=")[1]
     }
 }
