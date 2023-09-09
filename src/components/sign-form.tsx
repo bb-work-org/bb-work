@@ -5,6 +5,8 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {signIn} from "@/redux/actions/auth-action";
 import {useAppDispatch, useAppSelector} from "@/redux/hooks";
+import {useEffect} from "react";
+import {useRouter} from "next/navigation";
 
 type Inputs = {
     rgm: string;
@@ -17,13 +19,20 @@ const schema = yup.object().shape({
 });
 
 export default function SignForm() {
+    const route = useRouter();
     const dispatch = useAppDispatch();
-    const {loading} = useAppSelector(state => state.auth);
+    const {loading, loggedIn} = useAppSelector(state => state.auth);
 
     const {register, handleSubmit, formState: {errors, isValid}} = useForm<Inputs>({
         resolver: yupResolver(schema),
         mode: "onBlur"
     });
+
+    useEffect(() => {
+        if (loggedIn) {
+            route.push("/activities");
+        }
+    }, [loggedIn]);
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         dispatch(signIn(data));

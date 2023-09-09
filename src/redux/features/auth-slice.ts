@@ -3,6 +3,7 @@ import {signIn} from "@/redux/actions/auth-action";
 
 const initialState = {
     loading: false,
+    loggedIn: false,
     cookies: []
 }
 
@@ -16,6 +17,7 @@ const authSlice = createSlice({
         })
         builder.addCase(signIn.fulfilled, (state, action) => {
             state.loading = false
+            state.loggedIn = true
             state.cookies = action.payload?.cookie ?? []
         })
         builder.addCase(signIn.rejected, (state) => {
