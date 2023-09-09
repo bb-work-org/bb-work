@@ -1,7 +1,13 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {signIn} from "@/redux/actions/auth-action";
 
-const initialState = {
+type AuthState = {
+    loading: boolean,
+    loggedIn: boolean,
+    cookies: string[]
+}
+
+const initialState: AuthState = {
     loading: false,
     loggedIn: false,
     cookies: []

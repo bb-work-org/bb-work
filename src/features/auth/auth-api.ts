@@ -5,6 +5,7 @@ const NONCE_VALUE = "blackboard.platform.security.NonceUtil.nonce.ajax";
 
 export const getAuth = async () => {
     const response = await fetch<string>(getApi("/"), {
+        method: "GET",
         responseType: ResponseType.Text
     });
 
@@ -18,7 +19,7 @@ export const getAuth = async () => {
     return {
         new_loc: loginForm?.querySelector<HTMLInputElement>("input[name='new_loc']")?.value,
         nonce: loginForm?.querySelector<HTMLInputElement>(`input[name='${NONCE_VALUE}']`)?.value,
-        cookie: response.rawHeaders["set-cookie"].map((cookie: string) => cookie.split(";")[0])
+        cookies: response.rawHeaders["set-cookie"].map((cookie: string) => cookie.split(";")[0])
     }
 }
 
@@ -31,12 +32,12 @@ export const signIn = async (rgm: string, password: string) => {
             user_id: rgm,
             password: password,
             action: "login",
-            new_loc: auth.new_loc,
+            new_loc: auth.new_loc ?? "",
             login: encodeURI("Fazer login"),
-            [NONCE_VALUE]: auth.nonce,
+            [NONCE_VALUE]: auth.nonce ?? ""
         }),
         headers: {
-            "Cookie": `${auth.cookie.join("; ")};COOKIE_CONSENT_ACCEPTED=true`
+            "Cookie": `${auth.cookies.join("; ")};COOKIE_CONSENT_ACCEPTED=true`
         },
         responseType: ResponseType.Text
     });
@@ -48,11 +49,11 @@ export const signIn = async (rgm: string, password: string) => {
 
     if (error) throw new Error(error.textContent ?? "Unknown error");
 
-    if (response.status !== 200) throw new Error("Ocorreu um erro ao fazer login");
+    if (response.status !== 302) throw new Error("Ocorreu um erro ao fazer login");
 
     return {
         cookie: [
-            ...auth.cookie,
+            ...auth.cookies,
             ...response.rawHeaders["set-cookie"].map((cookie: string) => cookie.split(";")[0])
         ]
     }

@@ -4,7 +4,7 @@ import {signIn as signInApi} from "@/features/auth/auth-api";
 
 export const signIn = createAsyncThunk(
     "auth/signIn",
-    async (data: { rgm: string, password: string }) => {
+    async (data: { rgm: string, password: string }, {rejectWithValue}) => {
         try {
             const response = await signInApi(data.rgm, data.password);
             enqueueSnackbar("Sign in success", {
@@ -12,10 +12,12 @@ export const signIn = createAsyncThunk(
             });
 
             return response;
-        } catch (e: string) {
+        } catch (e: any) {
             enqueueSnackbar(e, {
                 variant: "error"
             });
+
+            rejectWithValue(e);
         }
 
         return null;
