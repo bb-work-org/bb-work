@@ -10,11 +10,11 @@ export default function RootLayout({children}: PropsWithChildren) {
         <html lang="en">
         <body>
         <Providers>
-            <SnackbarProvider maxSnack={3}>
-                <ThemeRegistry>
+            <ThemeRegistry>
+                <SnackbarProvider maxSnack={3}>
                     {children}
-                </ThemeRegistry>
-            </SnackbarProvider>
+                </SnackbarProvider>
+            </ThemeRegistry>
         </Providers>
         </body>
         </html>

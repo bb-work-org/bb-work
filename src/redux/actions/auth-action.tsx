@@ -6,14 +6,18 @@ export const signIn = createAsyncThunk(
     "auth/signIn",
     async (data: { rgm: string, password: string }) => {
         try {
-            await signInApi(data.rgm, data.password);
+            const response = await signInApi(data.rgm, data.password);
             enqueueSnackbar("Sign in success", {
                 variant: "success"
             });
+
+            return response;
         } catch (e: string) {
             enqueueSnackbar(e, {
                 variant: "error"
             });
         }
+
+        return null;
     }
 )

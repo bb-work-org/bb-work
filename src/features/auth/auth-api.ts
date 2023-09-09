@@ -19,7 +19,6 @@ export const getAuth = async () => {
         new_loc: loginForm?.querySelector<HTMLInputElement>("input[name='new_loc']")?.value,
         nonce: loginForm?.querySelector<HTMLInputElement>(`input[name='${NONCE_VALUE}']`)?.value,
         cookie: response.rawHeaders["set-cookie"].map((cookie: string) => cookie.split(";")[0])
-            .join(";")
     }
 }
 
@@ -37,7 +36,7 @@ export const signIn = async (rgm: string, password: string) => {
             [NONCE_VALUE]: auth.nonce,
         }),
         headers: {
-            "Cookie": auth.cookie + ";COOKIE_CONSENT_ACCEPTED=true",
+            "Cookie": `${auth.cookie.join("; ")};COOKIE_CONSENT_ACCEPTED=true`
         },
         responseType: ResponseType.Text
     });
@@ -51,5 +50,10 @@ export const signIn = async (rgm: string, password: string) => {
 
     if (response.status !== 200) throw new Error("Ocorreu um erro ao fazer login");
 
-    return true;
+    return {
+        cookie: [
+            ...auth.cookie,
+            ...response.rawHeaders["set-cookie"].map((cookie: string) => cookie.split(";")[0])
+        ]
+    }
 }
