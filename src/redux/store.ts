@@ -1,8 +1,11 @@
 import {configureStore} from "@reduxjs/toolkit";
 import {setupListeners} from "@reduxjs/toolkit/query";
+import {authReducer} from "@/redux/features/auth-slice";
 
 export const store = configureStore({
-    reducer: {},
+    reducer: {
+        auth: authReducer
+    },
     devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({}).concat([]),

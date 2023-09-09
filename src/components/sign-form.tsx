@@ -1,8 +1,10 @@
 'use client';
-import {Button, TextField} from "@mui/material";
+import {Button, CircularProgress, TextField} from "@mui/material";
 import * as yup from "yup";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
+import {signIn} from "@/redux/actions/auth-action";
+import {useAppDispatch, useAppSelector} from "@/redux/hooks";
 
 type Inputs = {
     rgm: string;
@@ -15,6 +17,8 @@ const schema = yup.object().shape({
 });
 
 export default function SignForm() {
+    const dispatch = useAppDispatch();
+    const {loading} = useAppSelector(state => state.auth);
 
     const {register, handleSubmit, formState: {errors, isValid}} = useForm<Inputs>({
         resolver: yupResolver(schema),
@@ -22,7 +26,7 @@ export default function SignForm() {
     });
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-
+        dispatch(signIn(data));
     }
 
     return (
@@ -54,7 +58,9 @@ export default function SignForm() {
                 fullWidth
                 variant="contained"
                 color="primary"
-                disabled={!isValid}
+                disabled={!isValid || loading}
+
+                startIcon={loading ? <CircularProgress size={20}/> : null}
             >
                 Sign In
             </Button>
