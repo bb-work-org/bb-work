@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { enqueueSnackbar } from "notistack";
 import { signIn as signInApi } from "@/features/auth/auth-api";
+import { BBError } from "@/utils/handlers/bb-error";
 
 export const signIn = createAsyncThunk(
     "auth/signIn",
@@ -13,7 +14,7 @@ export const signIn = createAsyncThunk(
 
             return response;
         } catch (error) {
-            if (error instanceof Error) {
+            if (error instanceof BBError) {
                 enqueueSnackbar(error.message, {
                     variant: "error"
                 });

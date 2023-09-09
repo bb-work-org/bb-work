@@ -1,5 +1,6 @@
-import {Body, fetch, ResponseType} from "@tauri-apps/api/http";
-import {getApi} from "@/utils/get-api";
+import { Body, fetch, ResponseType } from "@tauri-apps/api/http";
+import { getApi } from "@/utils/get-api";
+import { BBError } from "@/utils/handlers/bb-error";
 
 const NONCE_VALUE = "blackboard.platform.security.NonceUtil.nonce.ajax";
 
@@ -14,7 +15,7 @@ export const getAuth = async () => {
 
     const loginForm = doc.getElementById("login-form");
 
-    if (!loginForm) throw new Error("Login form not found");
+    if (!loginForm) throw new BBError("Login form not found");
 
     return {
         new_loc: loginForm?.querySelector<HTMLInputElement>("input[name='new_loc']")?.value,
@@ -47,9 +48,9 @@ export const signIn = async (rgm: string, password: string) => {
 
     const error = doc.getElementById("loginErrorMessage");
 
-    if (error) throw new Error(error.textContent ?? "Unknown error");
+    if (error) throw new BBError(error.textContent ?? "Unknown error");
 
-    if (response.status !== 200 || response.url === getApi("/webapps/login/")) throw new Error("Ocorreu um erro ao fazer login");
+    if (response.status !== 200 || response.url === getApi("/webapps/login/")) throw new BBError("Ocorreu um erro ao fazer login");
 
     return {
         cookie: [
