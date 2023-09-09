@@ -13,13 +13,11 @@ export const signIn = createAsyncThunk(
 
             return response;
         } catch (e: any) {
-            enqueueSnackbar(e, {
+            enqueueSnackbar(e.toString(), {
                 variant: "error"
             });
 
-            rejectWithValue(e);
+            return rejectWithValue(e);
         }
-
-        return null;
     }
 )
