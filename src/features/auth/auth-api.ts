@@ -49,7 +49,7 @@ export const signIn = async (rgm: string, password: string) => {
 
     if (error) throw new Error(error.textContent ?? "Unknown error");
 
-    if (response.status !== 302) throw new Error("Ocorreu um erro ao fazer login");
+    if (response.status !== 200 || response.url === getApi("/webapps/login/")) throw new Error("Ocorreu um erro ao fazer login");
 
     return {
         cookie: [
