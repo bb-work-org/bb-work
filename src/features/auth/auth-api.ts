@@ -18,7 +18,8 @@ export const getAuth = async () => {
     return {
         new_loc: loginForm?.querySelector<HTMLInputElement>("input[name='new_loc']")?.value,
         nonce: loginForm?.querySelector<HTMLInputElement>(`input[name='${NONCE_VALUE}']`)?.value,
-        cookie: response.rawHeaders["set-cookie"].join(";")
+        cookie: response.rawHeaders["set-cookie"].map((cookie: string) => cookie.split(";")[0])
+            .join(";")
     }
 }
 
