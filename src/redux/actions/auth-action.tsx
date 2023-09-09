@@ -1,6 +1,6 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
-import {enqueueSnackbar} from "notistack";
-import {signIn as signInApi} from "@/features/auth/auth-api";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { enqueueSnackbar } from "notistack";
+import { signIn as signInApi } from "@/features/auth/auth-api";
 
 export const signIn = createAsyncThunk(
     "auth/signIn",
@@ -12,12 +12,14 @@ export const signIn = createAsyncThunk(
             });
 
             return response;
-        } catch (e: any) {
-            enqueueSnackbar(e.toString(), {
-                variant: "error"
-            });
+        } catch (error) {
+            if (error instanceof Error) {
+                enqueueSnackbar(error.message, {
+                    variant: "error"
+                });
+            }
 
-            return rejectWithValue(e);
+            return rejectWithValue(error);
         }
     }
 )
