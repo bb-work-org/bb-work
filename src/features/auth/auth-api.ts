@@ -1,6 +1,7 @@
 import {Body, fetch, ResponseType} from "@tauri-apps/api/http";
 import {getApi} from "@/utils/get-api";
 import {BBError} from "@/utils/handlers/bb-error";
+import {fetchWithoutRedirect} from "@/utils/fetch-without-redirect";
 
 const NONCE_VALUE = "blackboard.platform.security.NonceUtil.nonce.ajax";
 
@@ -27,7 +28,7 @@ export const getAuth = async () => {
 export const signIn = async (rgm: string, password: string) => {
     const auth = await getAuth();
 
-    const response = await fetch<string>(getApi("/webapps/login/"), {
+    const response = await fetchWithoutRedirect<string>(getApi("/webapps/login/"), {
         method: "POST",
         body: Body.form({
             user_id: rgm,
@@ -50,9 +51,9 @@ export const signIn = async (rgm: string, password: string) => {
 
     if (error) throw new BBError(error.textContent ?? "Unknown error");
 
-    if (response.status !== 200 || response.url === getApi("/webapps/login/")) throw new BBError("Ocorreu um erro ao fazer login");
+    if (response.status !== 302) throw new BBError("Ocorreu um erro ao fazer login");
 
     return {
-        bbSession: response.rawHeaders["set-cookie"].filter((cookie: string) => cookie.startsWith("BbRouter="))[0].split(";")[0].split("=")[1]
+        bbSession: response.rawHeaders["set-cookie"].map((cookie: string) => cookie.split(";")[0]).join("; ")
     }
 }
