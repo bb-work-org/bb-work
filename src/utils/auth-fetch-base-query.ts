@@ -10,8 +10,7 @@ export const authFetchBaseQuery = ({baseUrl = ''}: InternalFetchFn): BaseQueryFn
     { url: string, method?: HttpVerb, options?: FetchOptions }
 > => async ({url, method = 'GET', options}, {getState}) => {
     try {
-        const auth = (getState() as RootState).auth;
-        const bbSession = auth.bbSession;
+        const {bbSession} = (getState() as RootState).auth;
 
         const response = await fetch(`${baseUrl}${url}`, {
             ...options,
