@@ -1,5 +1,5 @@
 "use client";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import {
 	AppBar,
 	Avatar,
@@ -8,11 +8,28 @@ import {
 	Toolbar,
 	Typography,
 } from "@mui/material";
-import { useGetMeQuery } from "@/redux/services/user-api";
 import { stringAvatar } from "@/helpers/text-to-avatar";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/redux/hooks";
+import {
+	useAuthenticatedQuery,
+	useGetMeQuery,
+} from "@/redux/services/user-api";
+import { clearAuth } from "@/redux/features/auth-slice";
 
 export default function Layout({ children }: PropsWithChildren) {
+	const router = useRouter();
+	const dispatch = useAppDispatch();
+
 	const { isLoading, data } = useGetMeQuery();
+	const { data: auth } = useAuthenticatedQuery();
+
+	useEffect(() => {
+		if (auth?.status === 401) {
+			dispatch(clearAuth());
+			router.push("/");
+		}
+	}, [auth?.status]);
 
 	return (
 		<div className="h-screen">
