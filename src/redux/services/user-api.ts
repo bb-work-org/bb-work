@@ -8,6 +8,18 @@ export const userApi = createApi({
 	reducerPath: "userApi",
 	baseQuery: authFetchBaseQuery({ baseUrl: getApi() }),
 	endpoints: (builder) => ({
+		authenticated: builder.query<{ status: number; message: string }, void>(
+			{
+				query: () => ({
+					url: "/learn/api/v1/utilities/keepBbSessionActive",
+					options: {
+						method: "POST",
+						responseType: ResponseType.JSON,
+					},
+				}),
+				keepUnusedDataFor: 0,
+			},
+		),
 		getMe: builder.query<UserMe, void>({
 			query: () => ({
 				url: "/learn/api/v1/users/me",
@@ -20,4 +32,4 @@ export const userApi = createApi({
 	}),
 });
 
-export const { useGetMeQuery } = userApi;
+export const { useAuthenticatedQuery, useGetMeQuery } = userApi;
