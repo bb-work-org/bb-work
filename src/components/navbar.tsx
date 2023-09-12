@@ -16,8 +16,12 @@ import { stringAvatar } from "@/helpers/text-to-avatar";
 import { useGetMeQuery } from "@/redux/services/user-api";
 import React, { useState } from "react";
 import { AccountCircle, Logout, Settings } from "@mui/icons-material";
+import { signOut } from "@/redux/actions/auth-action";
+import { useAppDispatch } from "@/redux/hooks";
 
 export const Navbar = () => {
+	const dispatch = useAppDispatch();
+
 	const { isLoading, data } = useGetMeQuery();
 
 	const [profileMenu, setProfileMenu] = useState<null | HTMLElement>(null);
@@ -85,10 +89,14 @@ export const Navbar = () => {
 						<AccountCircle />
 					</ListItemIcon>
 					<ListItemText
-						primary={`${data?.givenName
-							.split(" ")
-							.slice(0, 2)
-							.join(" ")}`}
+						primary={`${
+							data?.givenName
+								? data?.givenName
+										.split(" ")
+										.slice(0, 2)
+										.join(" ")
+								: "Erro ao carregar nome"
+						}`}
 					/>
 				</MenuItem>
 				<Divider />
@@ -98,7 +106,7 @@ export const Navbar = () => {
 					</ListItemIcon>
 					<ListItemText primary="Configurações" />
 				</MenuItem>
-				<MenuItem>
+				<MenuItem onClick={() => dispatch(signOut())}>
 					<ListItemIcon>
 						<Logout />
 					</ListItemIcon>
