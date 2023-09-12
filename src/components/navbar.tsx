@@ -18,6 +18,7 @@ import React, { useState } from "react";
 import { AccountCircle, Logout, Settings } from "@mui/icons-material";
 import { signOut } from "@/redux/actions/auth-action";
 import { useAppDispatch } from "@/redux/hooks";
+import Link from "next/link";
 
 export const Navbar = () => {
 	const dispatch = useAppDispatch();
@@ -84,7 +85,7 @@ export const Navbar = () => {
 				onClose={handleProfileMenuClose}
 				onClick={handleProfileMenuClose}
 			>
-				<MenuItem>
+				<MenuItem component={Link} href="/profile">
 					<ListItemIcon>
 						<AccountCircle />
 					</ListItemIcon>
@@ -100,7 +101,7 @@ export const Navbar = () => {
 					/>
 				</MenuItem>
 				<Divider />
-				<MenuItem>
+				<MenuItem component={Link} href="/dashboard/settings">
 					<ListItemIcon>
 						<Settings />
 					</ListItemIcon>
