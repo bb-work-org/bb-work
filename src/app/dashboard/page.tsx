@@ -1,16 +1,12 @@
 "use client";
-import { Card, CircularProgress, Grid, Stack, Typography } from "@mui/material";
+import { CircularProgress, Grid, Stack, Typography } from "@mui/material";
 import { useGetMeQuery } from "@/redux/services/user-api";
 import { useGetCoursesQuery } from "@/redux/services/courses-api";
-import { useEffect } from "react";
+import CourseCard from "@/components/course-card";
 
 export default function Activities() {
 	const { isLoading, data } = useGetMeQuery();
-	const { data: courses } = useGetCoursesQuery(data?.id ?? "");
-
-	useEffect(() => {
-		console.log(courses, data)
-	}, [courses, data]);
+	const { data: courses } = useGetCoursesQuery(data?.id ?? "", { skip: data === undefined });
 
 	return (
 		<Stack
@@ -18,23 +14,16 @@ export default function Activities() {
 			alignItems={"center"}
 			alignContent={"center"}
 			direction={"column"}
-			spacing={2}
-			className={"h-full"}
+			my={2}
 		>
 			<Typography>
 				Activities page
 				{isLoading ? <CircularProgress/> : undefined}
 			</Typography>
-			<Grid container>
+			<Grid direction={"column"} px={2} maxWidth={"md"} container>
 				{
-					courses?.map((courseRoot) => (
-						<Grid key={courseRoot.id} item>
-							<Card>
-								<Typography>
-									{courseRoot.course.name}
-								</Typography>
-							</Card>
-						</Grid>
+					courses?.results?.map((courseRoot) => (
+						<CourseCard key={courseRoot.id} courseRoot={courseRoot} />
 					))
 				}
 			</Grid>

@@ -1,20 +1,10 @@
 "use client";
 import { PropsWithChildren, useEffect } from "react";
-import {
-	AppBar,
-	Avatar,
-	Skeleton,
-	Stack,
-	Toolbar,
-	Typography,
-} from "@mui/material";
+import { AppBar, Avatar, Skeleton, Stack, Toolbar, Typography } from "@mui/material";
 import { stringAvatar } from "@/helpers/text-to-avatar";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
-import {
-	useAuthenticatedQuery,
-	useGetMeQuery,
-} from "@/redux/services/user-api";
+import { useAuthenticatedQuery, useGetMeQuery } from "@/redux/services/user-api";
 import { clearAuth } from "@/redux/features/auth-slice";
 
 export default function Layout({ children }: PropsWithChildren) {
@@ -29,7 +19,7 @@ export default function Layout({ children }: PropsWithChildren) {
 			dispatch(clearAuth());
 			router.push("/");
 		}
-	}, [auth?.status]);
+	}, [auth?.status, dispatch, router]);
 
 	return (
 		<div className="h-screen">
@@ -52,7 +42,7 @@ export default function Layout({ children }: PropsWithChildren) {
 								/>
 							) : (
 								<Avatar
-									src={data?.avatar.permanentUrl}
+									src={data?.avatar?.permanentUrl}
 									alt={data?.givenName}
 									sx={{
 										width: 40,
