@@ -28,9 +28,8 @@ export default function Layout({ children }: PropsWithChildren) {
 	}, [auth?.status, loggedIn]);
 
 	return (
-		<div className="h-screen">
-			<Navbar />
-			{children}
+		<div className="w-full h-screen">
+			<Navbar>{children}</Navbar>
 		</div>
 	);
 }
