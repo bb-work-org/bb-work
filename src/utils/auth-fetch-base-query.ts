@@ -1,6 +1,6 @@
-import {fetch, FetchOptions, HttpVerb} from "@tauri-apps/api/http";
-import {BaseQueryFn} from "@reduxjs/toolkit/query";
-import {RootState} from "@/redux/store";
+import { fetch, FetchOptions, HttpVerb } from "@tauri-apps/api/http";
+import { BaseQueryFn } from "@reduxjs/toolkit/query";
+import { RootState } from "@/redux/store";
 
 type InternalFetchFn = {
     baseUrl: string
@@ -23,15 +23,11 @@ export const authFetchBaseQuery = ({baseUrl = ''}: InternalFetchFn): BaseQueryFn
 
         return {
             data: response.data,
-            status: response.status,
-            headers: response.headers,
         };
     } catch (error) {
         if (error instanceof Error) {
             return {
                 error: {status: 0, data: error.message},
-                status: 0,
-                headers: {},
             };
         }
 
