@@ -6,6 +6,7 @@ import { useAuthenticatedQuery } from "@/redux/services/user-api";
 import { clearAuth } from "@/redux/features/auth-slice";
 import { Navbar } from "@/components/navbar";
 import { enqueueSnackbar } from "notistack";
+import { Routes } from "@/constants/routes";
 
 export default function Layout({ children }: PropsWithChildren) {
 	const router = useRouter();
@@ -29,7 +30,7 @@ export default function Layout({ children }: PropsWithChildren) {
 
 	return (
 		<div className="w-full h-screen">
-			<Navbar>{children}</Navbar>
+			<Navbar routes={Routes}>{children}</Navbar>
 		</div>
 	);
 }

@@ -26,7 +26,6 @@ import {
 	AccountCircle,
 	Logout,
 	Menu as MenuIcon,
-	PlayLesson,
 	Settings,
 } from "@mui/icons-material";
 import { signOut } from "@/redux/actions/auth-action";
@@ -34,15 +33,23 @@ import { useAppDispatch } from "@/redux/hooks";
 import Link from "next/link";
 import { formatName } from "@/helpers/format-name";
 import { checkDefaultProfile } from "@/helpers/check-default-profile";
+import { DashboardRoute } from "@/@types/dashboard-routes";
+import { usePathname } from "next/navigation";
 
 const drawerWidth = 240;
 
 type Props = {
 	window?: () => Window;
+	routes: DashboardRoute[];
 };
 
-export const Navbar: FC<PropsWithChildren<Props>> = ({ children, window }) => {
+export const Navbar: FC<PropsWithChildren<Props>> = ({
+	children,
+	window,
+	routes,
+}) => {
 	const dispatch = useAppDispatch();
+	const pathname = usePathname();
 
 	const { isLoading, data } = useGetMeQuery();
 
@@ -50,7 +57,7 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({ children, window }) => {
 	const [profileMenu, setProfileMenu] = useState<null | HTMLElement>(null);
 
 	const drawer = (
-		<div>
+		<>
 			<Toolbar>
 				<Typography variant="h6" noWrap component="div">
 					BB Work
@@ -58,16 +65,21 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({ children, window }) => {
 			</Toolbar>
 			<Divider />
 			<List>
-				<ListItem key={"Activities"} disablePadding>
-					<ListItemButton>
-						<ListItemIcon>
-							<PlayLesson />
-						</ListItemIcon>
-						<ListItemText primary={"Activities"} />
-					</ListItemButton>
-				</ListItem>
+				{routes.map((route) => (
+					<ListItem
+						component={Link}
+						key={route.name}
+						href={route.path}
+						disablePadding
+					>
+						<ListItemButton selected={pathname === route.path}>
+							<ListItemIcon>{route.icon}</ListItemIcon>
+							<ListItemText primary={route.name} />
+						</ListItemButton>
+					</ListItem>
+				))}
 			</List>
-		</div>
+		</>
 	);
 
 	const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
