@@ -1,11 +1,18 @@
 import { ButtonBase, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { CourseResult } from "@/@types/courses";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function CourseCard({ courseRoot }: { courseRoot: CourseResult }) {
+	const router = useRouter();
+
+	function handleClick() {
+		router.push(`/activities/${courseRoot.id}`);
+	}
+
 	return (
 		<Grid xs={12} sm={12} md={6} lg={3} item>
-			<ButtonBase sx={{ width: "100%", height: "100%" }}>
+			<ButtonBase onClick={() => handleClick()} sx={{ width: "100%", height: "100%" }}>
 				<Card sx={{ width: "100%", height: "100%" }}>
 					<CardMedia sx={{ height: "7rem" }}>
 						<div style={{ position: 'relative', width: '100%', height: '100%' }}>
