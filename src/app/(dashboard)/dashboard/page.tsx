@@ -17,7 +17,7 @@ export default function Activities() {
 			my={2}
 		>
 			<Typography>
-				Activities - { courses?.paging.count ?? 0 }
+				Activities - { courses?.paging?.count ?? 0 }
 				{isLoading ? <CircularProgress/> : undefined}
 			</Typography>
 			<Grid spacing={2} my={1} container>

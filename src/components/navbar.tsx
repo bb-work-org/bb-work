@@ -17,17 +17,12 @@ import {
 	Skeleton,
 	Stack,
 	Toolbar,
-	Typography,
+	Typography
 } from "@mui/material";
 import { stringAvatar } from "@/helpers/text-to-avatar";
 import { useGetMeQuery } from "@/redux/services/user-api";
 import React, { FC, PropsWithChildren, useState } from "react";
-import {
-	AccountCircle,
-	Logout,
-	Menu as MenuIcon,
-	Settings,
-} from "@mui/icons-material";
+import { AccountCircle, Logout, Menu as MenuIcon, Settings } from "@mui/icons-material";
 import { signOut } from "@/redux/actions/auth-action";
 import { useAppDispatch } from "@/redux/hooks";
 import Link from "next/link";
@@ -142,7 +137,7 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 								>
 									<Avatar
 										src={checkDefaultProfile(
-											data?.avatar.permanentUrl ?? "",
+											data?.avatar?.permanentUrl ?? "",
 										)}
 										alt={formatName(
 											data?.givenName ?? "Unknown",
