@@ -17,10 +17,10 @@ export default function Activities() {
 			my={2}
 		>
 			<Typography>
-				Activities page
+				Activities - { courses?.paging.count ?? 0 }
 				{isLoading ? <CircularProgress/> : undefined}
 			</Typography>
-			<Grid direction={"column"} px={2} maxWidth={"md"} container>
+			<Grid spacing={2} my={1} container>
 				{
 					courses?.results?.map((courseRoot) => (
 						<CourseCard key={courseRoot.id} courseRoot={courseRoot} />
