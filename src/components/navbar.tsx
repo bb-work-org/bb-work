@@ -32,6 +32,7 @@ import {
 import { signOut } from "@/redux/actions/auth-action";
 import { useAppDispatch } from "@/redux/hooks";
 import Link from "next/link";
+import { formatName } from "@/helpers/format-name";
 
 const drawerWidth = 240;
 
@@ -128,12 +129,18 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({ children, window }) => {
 								>
 									<Avatar
 										//src={data?.avatar.permanentUrl}
-										alt={data?.givenName}
+										alt={formatName(
+											data?.givenName ?? "Unknown",
+										)}
 										sx={{
 											width: 40,
 											height: 40,
 										}}
-										{...stringAvatar(data?.givenName ?? "")}
+										{...stringAvatar(
+											formatName(
+												data?.givenName ?? "Unknown",
+											),
+										)}
 									/>
 								</ButtonBase>
 							)}
@@ -144,7 +151,6 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({ children, window }) => {
 			<Box
 				component="nav"
 				sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-				aria-label="mailbox folders"
 			>
 				<Drawer
 					container={container}
@@ -200,14 +206,7 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({ children, window }) => {
 						<AccountCircle />
 					</ListItemIcon>
 					<ListItemText
-						primary={`${
-							data?.givenName
-								? data?.givenName
-										.split(" ")
-										.slice(0, 2)
-										.join(" ")
-								: "Erro ao carregar nome"
-						}`}
+						primary={`${formatName(data?.givenName ?? "Unknown")}`}
 					/>
 				</MenuItem>
 				<Divider />

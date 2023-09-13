@@ -15,7 +15,6 @@ export default function Activities() {
 			className={"h-full"}
 		>
 			<Typography>Activities page</Typography>
-			<Typography></Typography>
 		</Stack>
 	);
 }
