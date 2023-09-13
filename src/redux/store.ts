@@ -4,12 +4,12 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { authReducer } from "@/redux/features/auth-slice";
 import { userApi } from "@/redux/services/user-api";
 import storage from "@/redux/custom-storage";
-import { coursesApi } from "@/redux/services/courses-api";
+import { courseApi } from "@/redux/services/course-api";
 
 export const rootReducers = combineReducers({
 	auth: authReducer,
 	[userApi.reducerPath]: userApi.reducer,
-	[coursesApi.reducerPath]: coursesApi.reducer
+	[courseApi.reducerPath]: courseApi.reducer
 });
 
 const persistConfig = {
@@ -26,7 +26,7 @@ export const store = configureStore({
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({ serializableCheck: false }).concat([
 			userApi.middleware,
-			coursesApi.middleware
+			courseApi.middleware
 		]),
 });
 

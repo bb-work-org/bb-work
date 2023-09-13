@@ -3,8 +3,8 @@ import { authFetchBaseQuery } from "@/utils/auth-fetch-base-query";
 import { getApi } from "@/utils/get-api";
 import { CourseResponse } from "@/@types/courses";
 
-export const coursesApi = createApi({
-	reducerPath: "coursesApi",
+export const courseApi = createApi({
+	reducerPath: "courseApi",
 	baseQuery: authFetchBaseQuery({ baseUrl: getApi() }),
 	endpoints: (builder) => ({
 		getCourses: builder.query<CourseResponse, string>({
@@ -23,4 +23,4 @@ export const coursesApi = createApi({
 	}),
 });
 
-export const { useGetCoursesQuery } = coursesApi;
+export const { useGetCoursesQuery } = courseApi;
