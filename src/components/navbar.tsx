@@ -33,6 +33,7 @@ import { signOut } from "@/redux/actions/auth-action";
 import { useAppDispatch } from "@/redux/hooks";
 import Link from "next/link";
 import { formatName } from "@/helpers/format-name";
+import { checkDefaultProfile } from "@/helpers/check-default-profile";
 
 const drawerWidth = 240;
 
@@ -128,7 +129,9 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({ children, window }) => {
 									onClick={handleProfileMenuOpen}
 								>
 									<Avatar
-										//src={data?.avatar.permanentUrl}
+										src={checkDefaultProfile(
+											data?.avatar.permanentUrl ?? "",
+										)}
 										alt={formatName(
 											data?.givenName ?? "Unknown",
 										)}
