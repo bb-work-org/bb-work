@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signIn } from "@/redux/actions/auth-action";
+import { signIn, signOut } from "@/redux/actions/auth-action";
 
 type AuthState = {
 	loading: boolean;
@@ -32,6 +32,17 @@ const authSlice = createSlice({
 			state.bbSession = action.payload?.bbSession;
 		});
 		builder.addCase(signIn.rejected, (state, action) => {
+			state.loading = false;
+		});
+		builder.addCase(signOut.pending, (state) => {
+			state.loading = true;
+		});
+		builder.addCase(signOut.fulfilled, (state) => {
+			state.loading = false;
+			state.loggedIn = false;
+			state.bbSession = undefined;
+		});
+		builder.addCase(signOut.rejected, (state, action) => {
 			state.loading = false;
 		});
 	},
