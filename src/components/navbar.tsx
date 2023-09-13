@@ -17,6 +17,7 @@ import {
 	Skeleton,
 	Stack,
 	Toolbar,
+	Typography,
 } from "@mui/material";
 import { stringAvatar } from "@/helpers/text-to-avatar";
 import { useGetMeQuery } from "@/redux/services/user-api";
@@ -48,7 +49,11 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({ children, window }) => {
 
 	const drawer = (
 		<div>
-			<Toolbar />
+			<Toolbar>
+				<Typography variant="h6" noWrap component="div">
+					BB Work
+				</Typography>
+			</Toolbar>
 			<Divider />
 			<List>
 				<ListItem key={"Activities"} disablePadding>
