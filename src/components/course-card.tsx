@@ -7,7 +7,7 @@ export default function CourseCard({ courseRoot }: { courseRoot: CourseResult })
 	const router = useRouter();
 
 	function handleClick() {
-		router.push(`/activities/${courseRoot.id}`);
+		router.push(`/courses/${courseRoot.courseId}`);
 	}
 
 	return (
@@ -31,7 +31,7 @@ export default function CourseCard({ courseRoot }: { courseRoot: CourseResult })
 						alignItems: "flex-start"
 					}}>
 						<Typography textAlign={"left"} sx={{ fontSize: 11 }} color={"text.secondary"} gutterBottom>
-							{courseRoot.id}
+							{courseRoot.courseId}
 						</Typography>
 
 						<Typography textAlign={"left"} sx={{ fontSize: 15 }}>

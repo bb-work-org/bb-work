@@ -2,6 +2,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { authFetchBaseQuery } from "@/utils/auth-fetch-base-query";
 import { getApi } from "@/utils/get-api";
 import { CourseResponse } from "@/@types/courses";
+import { ActivityResult } from "@/@types/activities";
 
 export const courseApi = createApi({
 	reducerPath: "courseApi",
@@ -20,7 +21,18 @@ export const courseApi = createApi({
 				},
 			})
 		}),
+		getCourseContents: builder.query<ActivityResult, string>({
+			query: (courseId) => ({
+				url: `/learn/api/v1/courses/${courseId}/contents`,
+				options: {
+					query: {
+						recursive: "true"
+					},
+					method: "GET"
+				}
+			})
+		})
 	}),
 });
 
-export const { useGetCoursesQuery } = courseApi;
+export const { useGetCoursesQuery, useGetCourseContentsQuery } = courseApi;
