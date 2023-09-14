@@ -1,5 +1,5 @@
 "use client";
-import { Card, Grid, Stack, Typography } from "@mui/material";
+import { List, ListItem, ListItemButton, ListItemText, Stack, Typography } from "@mui/material";
 import { useGetCourseContentsQuery } from "@/redux/services/course-api";
 
 export default function CourseActivities({ params }: { params: { id: string }} ) {
@@ -13,11 +13,21 @@ export default function CourseActivities({ params }: { params: { id: string }} )
 				Activities from course - {params.id}
 			</Typography>
 
-			<Grid>
-				{data?.results?.map((activity) => (
-					<Card key={activity.id}>{activity.title}</Card>
-				))}
-			</Grid>
+			<List>
+				{data?.results?.map((activity) => {
+					if (activity.contentHandler !== "resource/x-bb-assignment") {
+						return;
+					}
+
+					return (
+						<ListItem key={activity.id} disablePadding>
+							<ListItemButton>
+								<ListItemText primary={`${activity.title} - ${activity.id}`} />
+							</ListItemButton>
+						</ListItem>
+					)
+				})}
+			</List>
 		</Stack>
 	)
 }
