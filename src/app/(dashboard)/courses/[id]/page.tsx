@@ -1,6 +1,7 @@
 "use client";
-import { List, ListItem, ListItemButton, ListItemText, Stack, Typography } from "@mui/material";
+import { List, Stack, Typography } from "@mui/material";
 import { useGetCourseContentsQuery } from "@/redux/services/course-api";
+import ActivityCard from "@/components/activity-card";
 
 export default function CourseActivities({ params }: { params: { id: string }} ) {
 	const { data } = useGetCourseContentsQuery(params.id);
@@ -19,13 +20,7 @@ export default function CourseActivities({ params }: { params: { id: string }} )
 						return;
 					}
 
-					return (
-						<ListItem key={activity.id} disablePadding>
-							<ListItemButton>
-								<ListItemText primary={`${activity.title} - ${activity.id}`} />
-							</ListItemButton>
-						</ListItem>
-					)
+					return <ActivityCard key={activity.id} activity={activity} />
 				})}
 			</List>
 		</Stack>

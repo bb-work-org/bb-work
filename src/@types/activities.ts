@@ -27,7 +27,7 @@ export interface Activity {
 	inLesson: boolean
 	titleColor: string
 	position: number
-	contentHandler: string
+	contentHandler: ContentHandler
 	description: string
 	body: Body
 	permissions: Permissions
@@ -37,6 +37,11 @@ export interface Activity {
 	parentId?: string
 	adaptiveReleaseRules?: AdaptiveReleaseRules
 }
+
+type ContentHandler = "resource/x-bb-folder"
+	| "resource/x-bb-file"
+	| "resource/x-bb-assignment"
+	| "resource/x-bb-externallink";
 
 export interface ContentDetail {
 	"resource/x-bb-folder"?: ResourceXBbFolder

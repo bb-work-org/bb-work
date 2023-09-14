@@ -5,11 +5,13 @@ import { authReducer } from "@/redux/features/auth-slice";
 import { userApi } from "@/redux/services/user-api";
 import storage from "@/redux/custom-storage";
 import { courseApi } from "@/redux/services/course-api";
+import { activityApi } from "@/redux/services/activity-api";
 
 export const rootReducers = combineReducers({
 	auth: authReducer,
 	[userApi.reducerPath]: userApi.reducer,
-	[courseApi.reducerPath]: courseApi.reducer
+	[courseApi.reducerPath]: courseApi.reducer,
+	[activityApi.reducerPath]: activityApi.reducer
 });
 
 const persistConfig = {
@@ -26,7 +28,8 @@ export const store = configureStore({
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({ serializableCheck: false }).concat([
 			userApi.middleware,
-			courseApi.middleware
+			courseApi.middleware,
+			activityApi.middleware
 		]),
 });
 
