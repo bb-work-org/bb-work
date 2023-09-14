@@ -1,7 +1,7 @@
 "use client";
 import { CircularProgress, Grid, Stack, Typography } from "@mui/material";
 import { useGetMeQuery } from "@/redux/services/user-api";
-import { useGetCoursesQuery } from "@/redux/services/courses-api";
+import { useGetCoursesQuery } from "@/redux/services/course-api";
 import CourseCard from "@/components/course-card";
 
 export default function Activities() {
@@ -20,12 +20,11 @@ export default function Activities() {
 				Activities - { courses?.paging?.count ?? 0 }
 				{isLoading ? <CircularProgress/> : undefined}
 			</Typography>
+
 			<Grid spacing={2} my={1} container>
-				{
-					courses?.results?.map((courseRoot) => (
-						<CourseCard key={courseRoot.id} courseRoot={courseRoot} />
-					))
-				}
+				{courses?.results?.map((courseRoot) => (
+					<CourseCard key={courseRoot.id} courseRoot={courseRoot} />
+				))}
 			</Grid>
 		</Stack>
 	);
