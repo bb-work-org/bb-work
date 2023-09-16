@@ -1,7 +1,8 @@
 {
   "SignIn": {
     "title": "Login",
-    "password": "Senha"
+    "password": "Senha",
+    "signIn": "Entrar"
   },
   "Profile": {
     "settings": "Configurações",

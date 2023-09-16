@@ -83,7 +83,7 @@ export default function SignForm() {
 					disabled={!isValid || loading}
 					startIcon={loading ? <CircularProgress size={20} /> : null}
 				>
-					Sign In
+					{t("signIn")}
 				</Button>
 			</form>
 		</>
