@@ -1,0 +1,10 @@
+{
+  "SignIn": {
+    "title": "Sign In",
+    "password": "Password"
+  },
+  "Profile": {
+    "settings": "Settings",
+    "signOut": "Sign Out"
+  }
+}

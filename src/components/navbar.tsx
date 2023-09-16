@@ -35,6 +35,8 @@ import { formatName } from "@/helpers/format-name";
 import { checkDefaultProfile } from "@/helpers/check-default-profile";
 import { DashboardRoute } from "@/@types/dashboard-routes";
 import { usePathname } from "next/navigation";
+import { useWithLocale } from "@/hooks/useWithLocale";
+import { useTranslations } from "use-intl";
 
 const drawerWidth = 240;
 
@@ -50,6 +52,8 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 }) => {
 	const dispatch = useAppDispatch();
 	const pathname = usePathname();
+	const t = useTranslations("Profile");
+	const withLocale = useWithLocale();
 
 	const { isLoading, data } = useGetMeQuery();
 
@@ -69,10 +73,12 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 					<ListItem
 						component={Link}
 						key={route.name}
-						href={route.path}
+						href={withLocale(route.path)}
 						disablePadding
 					>
-						<ListItemButton selected={pathname === route.path}>
+						<ListItemButton
+							selected={pathname === withLocale(route.path)}
+						>
 							<ListItemIcon>{route.icon}</ListItemIcon>
 							<ListItemText primary={route.name} />
 						</ListItemButton>
@@ -216,7 +222,7 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 				onClose={handleProfileMenuClose}
 				onClick={handleProfileMenuClose}
 			>
-				<MenuItem component={Link} href="/profile">
+				<MenuItem component={Link} href={withLocale("/profile")}>
 					<ListItemIcon>
 						<AccountCircle />
 					</ListItemIcon>
@@ -225,17 +231,20 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 					/>
 				</MenuItem>
 				<Divider />
-				<MenuItem component={Link} href="/dashboard/settings">
+				<MenuItem
+					component={Link}
+					href={withLocale("/dashboard/settings")}
+				>
 					<ListItemIcon>
 						<Settings />
 					</ListItemIcon>
-					<ListItemText primary="Configurações" />
+					<ListItemText primary={t("settings")} />
 				</MenuItem>
 				<MenuItem onClick={() => dispatch(signOut())}>
 					<ListItemIcon>
 						<Logout />
 					</ListItemIcon>
-					<ListItemText primary="Sair" />
+					<ListItemText primary={t("signOut")} />
 				</MenuItem>
 			</Menu>
 		</>

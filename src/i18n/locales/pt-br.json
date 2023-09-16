@@ -1,0 +1,10 @@
+{
+  "SignIn": {
+    "title": "Login",
+    "password": "Senha"
+  },
+  "Profile": {
+    "settings": "Configurações",
+    "signOut": "Sair"
+  }
+}
