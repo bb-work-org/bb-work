@@ -27,7 +27,7 @@ export const userApi = createApi({
 					method: "GET",
 					responseType: ResponseType.JSON,
 				},
-			}),
+			})
 		}),
 	}),
 });
