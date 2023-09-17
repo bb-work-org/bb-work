@@ -148,7 +148,7 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 								>
 									<Avatar
 										src={checkDefaultProfile(
-											data?.avatar.permanentUrl ?? "",
+											data?.avatar?.permanentUrl ?? "",
 										)}
 										alt={formatName(
 											data?.givenName ?? "Unknown",
