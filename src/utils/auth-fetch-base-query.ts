@@ -1,4 +1,4 @@
-import { fetch, FetchOptions, HttpVerb } from "@tauri-apps/api/http";
+import { fetch, FetchOptions, HttpVerb, Response } from "@tauri-apps/api/http";
 import { BaseQueryFn } from "@reduxjs/toolkit/query";
 import { RootState } from "@/redux/store";
 
@@ -7,7 +7,7 @@ type InternalFetchFn = {
 };
 
 type Meta = {
-	response?: Response;
+	response: Response<unknown>;
 };
 
 export const authFetchBaseQuery =
@@ -21,6 +21,7 @@ export const authFetchBaseQuery =
 		},
 		unknown,
 		unknown,
+		{},
 		Meta
 	> =>
 	async ({ url, method = "GET", options }, { getState }) => {
