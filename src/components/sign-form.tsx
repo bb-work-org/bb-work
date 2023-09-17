@@ -6,8 +6,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signIn } from "@/redux/actions/auth-action";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useTranslations } from "use-intl";
+import { redirect, useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "use-intl";
 import { useWithLocale } from "@/hooks/useWithLocale";
 
 type Inputs = {
@@ -22,10 +22,14 @@ const schema = yup.object().shape({
 
 export default function SignForm() {
 	const route = useRouter();
-	const t = useTranslations("sign-in");
 	const withLocale = useWithLocale();
+	const locale = useLocale();
+
+	const t = useTranslations("sign-in");
+
 	const dispatch = useAppDispatch();
 	const { loading, loggedIn } = useAppSelector((state) => state.auth);
+	const settings = useAppSelector((state) => state.settings);
 
 	const {
 		register,
@@ -37,9 +41,9 @@ export default function SignForm() {
 	});
 
 	useEffect(() => {
-		if (loggedIn) {
-			route.push(withLocale("/dashboard"));
-		}
+		if (settings.locale != locale) redirect(`/${settings.locale}`);
+
+		if (loggedIn) route.push(withLocale("/dashboard"));
 	}, [loggedIn]);
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {

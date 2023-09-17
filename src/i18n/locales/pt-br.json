@@ -8,6 +8,15 @@
     "settings": "Configurações",
     "signOut": "Sair"
   },
+  "settings": {
+    "title": "Configurações",
+    "language": "Idioma",
+    "modals": {
+      "language": {
+        "title": "Selecione seu idioma"
+      }
+    }
+  },
   "dashboard": {
     "navigation": {
       "activities": "Atividades"

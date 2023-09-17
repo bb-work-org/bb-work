@@ -8,6 +8,15 @@
     "settings": "Settings",
     "signOut": "Sign Out"
   },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "modals": {
+      "language": {
+        "title": "Select Language"
+      }
+    }
+  },
   "dashboard": {
     "navigation": {
       "activities": "Activities"
