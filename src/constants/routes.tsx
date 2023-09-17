@@ -4,7 +4,7 @@ import { PlayLesson } from "@mui/icons-material";
 export const Routes: DashboardRoute[] = [
 	{
 		path: "/dashboard",
-		name: "Activities",
+		name: "navigation.activities",
 		icon: <PlayLesson />,
 	},
 ];

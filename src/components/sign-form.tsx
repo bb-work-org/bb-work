@@ -1,12 +1,14 @@
 "use client";
-import { Button, CircularProgress, TextField } from "@mui/material";
+import { Button, CircularProgress, TextField, Typography } from "@mui/material";
 import * as yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signIn } from "@/redux/actions/auth-action";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "use-intl";
+import { useWithLocale } from "@/hooks/useWithLocale";
 
 type Inputs = {
 	rgm: string;
@@ -20,8 +22,14 @@ const schema = yup.object().shape({
 
 export default function SignForm() {
 	const route = useRouter();
+	const withLocale = useWithLocale();
+	const locale = useLocale();
+
+	const t = useTranslations("sign-in");
+
 	const dispatch = useAppDispatch();
 	const { loading, loggedIn } = useAppSelector((state) => state.auth);
+	const settings = useAppSelector((state) => state.settings);
 
 	const {
 		register,
@@ -33,9 +41,9 @@ export default function SignForm() {
 	});
 
 	useEffect(() => {
-		if (loggedIn) {
-			route.push("/dashboard");
-		}
+		if (settings.locale != locale) redirect(`/${settings.locale}`);
+
+		if (loggedIn) route.push(withLocale("/dashboard"));
 	}, [loggedIn]);
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -43,40 +51,45 @@ export default function SignForm() {
 	};
 
 	return (
-		<form
-			className="w-full max-w-sm space-y-3"
-			onSubmit={handleSubmit(onSubmit)}
-		>
-			<TextField
-				variant="outlined"
-				label="RGM"
-				autoComplete="rgm"
-				fullWidth
-				autoFocus
-				{...register("rgm")}
-				error={!!errors.rgm}
-				helperText={errors.rgm?.message || false}
-			/>
-			<TextField
-				variant="outlined"
-				label="Password"
-				type="password"
-				autoComplete="current-password"
-				fullWidth
-				{...register("password")}
-				error={!!errors.password}
-				helperText={errors.password?.message || false}
-			/>
-			<Button
-				type="submit"
-				fullWidth
-				variant="contained"
-				color="primary"
-				disabled={!isValid || loading}
-				startIcon={loading ? <CircularProgress size={20} /> : null}
+		<>
+			<Typography component="h1" variant="h5">
+				{t("title")}
+			</Typography>
+			<form
+				className="w-full max-w-sm space-y-3"
+				onSubmit={handleSubmit(onSubmit)}
 			>
-				Sign In
-			</Button>
-		</form>
+				<TextField
+					variant="outlined"
+					label="RGM"
+					autoComplete="rgm"
+					fullWidth
+					autoFocus
+					{...register("rgm")}
+					error={!!errors.rgm}
+					helperText={errors.rgm?.message || false}
+				/>
+				<TextField
+					variant="outlined"
+					label={t("password")}
+					type="password"
+					autoComplete="current-password"
+					fullWidth
+					{...register("password")}
+					error={!!errors.password}
+					helperText={errors.password?.message || false}
+				/>
+				<Button
+					type="submit"
+					fullWidth
+					variant="contained"
+					color="primary"
+					disabled={!isValid || loading}
+					startIcon={loading ? <CircularProgress size={20} /> : null}
+				>
+					{t("signIn")}
+				</Button>
+			</form>
+		</>
 	);
 }
