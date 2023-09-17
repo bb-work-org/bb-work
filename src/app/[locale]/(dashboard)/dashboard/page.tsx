@@ -1,7 +1,7 @@
 "use client";
-import { CircularProgress, Grid, Stack, Typography } from "@mui/material";
-import { useGetMeQuery } from "@/redux/services/user-api";
-import { useGetCoursesQuery } from "@/redux/services/course-api";
+import {CircularProgress, Grid, Stack, Typography} from "@mui/material";
+import {useGetMeQuery} from "@/redux/services/user-api";
+import {useGetCoursesQuery} from "@/redux/services/course-api";
 import CourseCard from "@/components/course-card";
 
 export default function Activities() {
@@ -16,9 +16,10 @@ export default function Activities() {
 			alignItems={"center"}
 			alignContent={"center"}
 			direction={"column"}
+			p={3}
 			my={2}
 		>
-			<Typography>
+			<Typography display={"flex"} flexDirection={"column"} alignItems={"center"} gap={2}>
 				Activities - { courses?.paging?.count ?? 0 }
 				{isLoading ? <CircularProgress/> : undefined}
 			</Typography>
