@@ -211,7 +211,6 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 			<Box
 				component="main"
 				sx={{
-					p: 3,
 					width: { sm: `calc(100% - ${drawerWidth}px)` },
 					ml: { sm: `${drawerWidth}px` },
 				}}
