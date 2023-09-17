@@ -7,5 +7,10 @@
   "profile": {
     "settings": "Configurações",
     "signOut": "Sair"
+  },
+  "dashboard": {
+    "navigation": {
+      "activities": "Atividades"
+    }
   }
 }

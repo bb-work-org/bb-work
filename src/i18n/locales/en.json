@@ -7,5 +7,10 @@
   "profile": {
     "settings": "Settings",
     "signOut": "Sign Out"
+  },
+  "dashboard": {
+    "navigation": {
+      "activities": "Activities"
+    }
   }
 }

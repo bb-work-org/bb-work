@@ -53,6 +53,7 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 	const dispatch = useAppDispatch();
 	const pathname = usePathname();
 	const t = useTranslations("profile");
+	const t2 = useTranslations("dashboard");
 	const withLocale = useWithLocale();
 
 	const { isLoading, data } = useGetMeQuery();
@@ -69,21 +70,23 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 			</Toolbar>
 			<Divider />
 			<List>
-				{routes.map((route) => (
-					<ListItem
-						component={Link}
-						key={route.name}
-						href={withLocale(route.path)}
-						disablePadding
-					>
-						<ListItemButton
-							selected={pathname === withLocale(route.path)}
+				{routes.map((route, index) => {
+					return (
+						<ListItem
+							component={Link}
+							key={route.name}
+							href={withLocale(route.path)}
+							disablePadding
 						>
-							<ListItemIcon>{route.icon}</ListItemIcon>
-							<ListItemText primary={route.name} />
-						</ListItemButton>
-					</ListItem>
-				))}
+							<ListItemButton
+								selected={pathname === withLocale(route.path)}
+							>
+								<ListItemIcon>{route.icon}</ListItemIcon>
+								<ListItemText primary={t2(route.name as any)} />
+							</ListItemButton>
+						</ListItem>
+					);
+				})}
 			</List>
 		</>
 	);
