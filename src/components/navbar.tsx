@@ -52,7 +52,7 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 }) => {
 	const dispatch = useAppDispatch();
 	const pathname = usePathname();
-	const t = useTranslations("Profile");
+	const t = useTranslations("profile");
 	const withLocale = useWithLocale();
 
 	const { isLoading, data } = useGetMeQuery();

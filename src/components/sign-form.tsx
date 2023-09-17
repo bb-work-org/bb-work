@@ -22,7 +22,7 @@ const schema = yup.object().shape({
 
 export default function SignForm() {
 	const route = useRouter();
-	const t = useTranslations("SignIn");
+	const t = useTranslations("sign-in");
 	const withLocale = useWithLocale();
 	const dispatch = useAppDispatch();
 	const { loading, loggedIn } = useAppSelector((state) => state.auth);
