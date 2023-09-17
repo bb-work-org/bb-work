@@ -4,11 +4,13 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { authReducer } from "@/redux/features/auth-slice";
 import { userApi } from "@/redux/services/user-api";
 import storage from "@/redux/custom-storage";
+import { settingsReducer } from "@/redux/features/settings-slice";
 import { courseApi } from "@/redux/services/course-api";
 import { activityApi } from "@/redux/services/activity-api";
 
 export const rootReducers = combineReducers({
 	auth: authReducer,
+	settings: settingsReducer,
 	[userApi.reducerPath]: userApi.reducer,
 	[courseApi.reducerPath]: courseApi.reducer,
 	[activityApi.reducerPath]: activityApi.reducer
@@ -17,7 +19,7 @@ export const rootReducers = combineReducers({
 const persistConfig = {
 	key: "root",
 	storage: storage,
-	whitelist: ["auth"],
+	whitelist: ["auth", "settings"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);

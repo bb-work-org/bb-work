@@ -30,6 +30,8 @@ import { formatName } from "@/helpers/format-name";
 import { checkDefaultProfile } from "@/helpers/check-default-profile";
 import { DashboardRoute } from "@/@types/dashboard-routes";
 import { usePathname } from "next/navigation";
+import { useWithLocale } from "@/hooks/useWithLocale";
+import { useTranslations } from "use-intl";
 
 const drawerWidth = 240;
 
@@ -45,6 +47,9 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 }) => {
 	const dispatch = useAppDispatch();
 	const pathname = usePathname();
+	const t = useTranslations("profile");
+	const t2 = useTranslations("dashboard");
+	const withLocale = useWithLocale();
 
 	const { isLoading, data } = useGetMeQuery();
 
@@ -60,19 +65,23 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 			</Toolbar>
 			<Divider />
 			<List>
-				{routes.map((route) => (
-					<ListItem
-						component={Link}
-						key={route.name}
-						href={route.path}
-						disablePadding
-					>
-						<ListItemButton selected={pathname === route.path}>
-							<ListItemIcon>{route.icon}</ListItemIcon>
-							<ListItemText primary={route.name} />
-						</ListItemButton>
-					</ListItem>
-				))}
+				{routes.map((route, index) => {
+					return (
+						<ListItem
+							component={Link}
+							key={route.name}
+							href={withLocale(route.path)}
+							disablePadding
+						>
+							<ListItemButton
+								selected={pathname === withLocale(route.path)}
+							>
+								<ListItemIcon>{route.icon}</ListItemIcon>
+								<ListItemText primary={t2(route.name as any)} />
+							</ListItemButton>
+						</ListItem>
+					);
+				})}
 			</List>
 		</>
 	);
@@ -197,7 +206,6 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 			<Box
 				component="main"
 				sx={{
-					p: 3,
 					width: { sm: `calc(100% - ${drawerWidth}px)` },
 					ml: { sm: `${drawerWidth}px` },
 				}}
@@ -211,7 +219,7 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 				onClose={handleProfileMenuClose}
 				onClick={handleProfileMenuClose}
 			>
-				<MenuItem component={Link} href="/profile">
+				<MenuItem component={Link} href={withLocale("/profile")}>
 					<ListItemIcon>
 						<AccountCircle />
 					</ListItemIcon>
@@ -220,17 +228,20 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 					/>
 				</MenuItem>
 				<Divider />
-				<MenuItem component={Link} href="/dashboard/settings">
+				<MenuItem
+					component={Link}
+					href={withLocale("/dashboard/settings")}
+				>
 					<ListItemIcon>
 						<Settings />
 					</ListItemIcon>
-					<ListItemText primary="Configurações" />
+					<ListItemText primary={t("settings")} />
 				</MenuItem>
 				<MenuItem onClick={() => dispatch(signOut())}>
 					<ListItemIcon>
 						<Logout />
 					</ListItemIcon>
-					<ListItemText primary="Sair" />
+					<ListItemText primary={t("signOut")} />
 				</MenuItem>
 			</Menu>
 		</>
