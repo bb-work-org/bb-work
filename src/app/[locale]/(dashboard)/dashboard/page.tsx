@@ -8,6 +8,8 @@ export default function Activities() {
 	const { isLoading, data } = useGetMeQuery();
 	const { data: courses } = useGetCoursesQuery(data?.id ?? "", { skip: data === undefined });
 
+	console.log(courses)
+
 	return (
 		<Stack
 			justifyContent={"center"}

@@ -1,12 +1,16 @@
-import { ButtonBase, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
-import { CourseResult } from "@/@types/courses";
+import {ButtonBase, Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
+import {CourseResult} from "@/@types/courses";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import {useRouter} from "next/navigation";
+import {useEffect, useState} from "react";
+import {useGetCourseBannerQuery, useGetCourseStaticBannerQuery} from "@/redux/services/banner-api";
 
 export default function CourseCard({ courseRoot }: { courseRoot: CourseResult }) {
 	const router = useRouter();
 	const [expired, setExpired] = useState(false);
+	const { data: bannerUrl } = courseRoot.course.banner
+		? useGetCourseBannerQuery(courseRoot.courseId)
+		: useGetCourseStaticBannerQuery(`nature${courseRoot.courseCardColorIndex % 20 + 1}_thumb`);
 
 	function handleClick() {
 		router.push(`/courses/${courseRoot.courseId}`);
@@ -32,10 +36,11 @@ export default function CourseCard({ courseRoot }: { courseRoot: CourseResult })
 					<CardMedia sx={{ height: "7rem" }}>
 						<div style={{ position: 'relative', width: '100%', height: '100%' }}>
 							<Image
-								src={"https://static.tuasaude.com/media/article/mo/fu/beneficios-do-abacate_13382_l.webp"}
-								alt={""}
-								layout={"fill"}
-								objectFit={"cover"}
+								src={ bannerUrl ?? "" }
+								style={{ width: "100%", height: "100%", objectFit: "cover" }}
+								alt={courseRoot.course.bannerAltText ?? "Banner"}
+								width={0}
+								height={0}
 							/>
 						</div>
 					</CardMedia>

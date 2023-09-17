@@ -1,8 +1,8 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
-import { authFetchBaseQuery } from "@/utils/auth-fetch-base-query";
-import { getApi } from "@/utils/get-api";
-import { CourseResponse } from "@/@types/courses";
-import { ActivityResult } from "@/@types/activities";
+import {createApi} from "@reduxjs/toolkit/query/react";
+import {authFetchBaseQuery} from "@/utils/auth-fetch-base-query";
+import {getApi} from "@/utils/get-api";
+import {CourseResponse} from "@/@types/courses";
+import {ActivityResult} from "@/@types/activities";
 
 export const courseApi = createApi({
 	reducerPath: "courseApi",
