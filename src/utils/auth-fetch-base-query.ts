@@ -6,14 +6,23 @@ type InternalFetchFn = {
 	baseUrl: string;
 };
 
+type Meta = {
+	response?: Response;
+};
+
 export const authFetchBaseQuery =
 	({
 		baseUrl = "",
-	}: InternalFetchFn): BaseQueryFn<{
-		url: string;
-		method?: HttpVerb;
-		options?: FetchOptions;
-	}> =>
+	}: InternalFetchFn): BaseQueryFn<
+		{
+			url: string;
+			method?: HttpVerb;
+			options?: FetchOptions;
+		},
+		unknown,
+		unknown,
+		Meta
+	> =>
 	async ({ url, method = "GET", options }, { getState }) => {
 		try {
 			const { bbSession } = (getState() as RootState).auth;
@@ -29,6 +38,9 @@ export const authFetchBaseQuery =
 
 			return {
 				data: response.data,
+				meta: {
+					response: response,
+				},
 			};
 		} catch (error) {
 			if (error instanceof Error) {
