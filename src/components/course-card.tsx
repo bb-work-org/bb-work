@@ -4,16 +4,18 @@ import Image from "next/image";
 import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 import {useGetCourseBannerQuery, useGetCourseStaticBannerQuery} from "@/redux/services/banner-api";
+import {useWithLocale} from "@/hooks/useWithLocale";
 
 export default function CourseCard({ courseRoot }: { courseRoot: CourseResult }) {
 	const router = useRouter();
+	const withLocale = useWithLocale();
 	const [expired, setExpired] = useState(false);
 	const { data: bannerUrl } = courseRoot.course.banner
 		? useGetCourseBannerQuery(courseRoot.courseId)
 		: useGetCourseStaticBannerQuery(`nature${courseRoot.courseCardColorIndex % 20 + 1}_thumb`);
 
 	function handleClick() {
-		router.push(`/courses/${courseRoot.courseId}`);
+		router.push(withLocale(`/courses/${courseRoot.courseId}`));
 	}
 
 	useEffect(() => {
