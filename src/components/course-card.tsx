@@ -6,13 +6,15 @@ import React, {PropsWithChildren, ReactNode, useEffect, useState} from "react";
 import {useGetCourseBannerQuery, useGetCourseStaticBannerQuery} from "@/redux/services/banner-api";
 import {useWithLocale} from "@/hooks/useWithLocale";
 
-function Skeleton() {
-	const imageSkeleton = (
-		<MuiSkeleton variant={"rectangular"} height={"100%"}/>
-	);
-
+function ImageSkeleton() {
 	return (
-		<Body clickable={false} handleClick={() => {}} image={imageSkeleton}>
+		<MuiSkeleton variant={"rectangular"} height={"100%"}/>
+	)
+}
+
+function Skeleton() {
+	return (
+		<Body clickable={false} handleClick={() => {}} image={<ImageSkeleton/>}>
 			<MuiSkeleton variant={"text"} width={"25%"}/>
 			<MuiSkeleton variant={"text"} width={"45%"}/>
 			<MuiSkeleton variant={"text"} width={"30%"}/>
@@ -48,14 +50,15 @@ function Root({ courseRoot }: { courseRoot: CourseResult }) {
 	return isLoading
 		? <Skeleton />
 		: (
-			<Body expired={expired} handleClick={handleClick} image={bannerUrl ? (
-				<Image
+			<Body expired={expired} handleClick={handleClick} image={bannerUrl
+				? <Image
 					src={bannerUrl}
 					alt={courseRoot.course.name}
 					layout={"fill"}
 					objectFit={"cover"}
 				/>
-			) : undefined}>
+				: <ImageSkeleton/>
+			}>
 				<Typography textAlign={"left"} sx={{ fontSize: 11 }} color={"text.secondary"} gutterBottom>
 					{courseRoot.courseId}
 				</Typography>
