@@ -91,21 +91,17 @@ jobs:
             src-tauri/target/release/bundle/*
 
       - name: 🚀 Upload in github release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }} - ${{ matrix.os }}
+          artifacts: "release-${{ matrix.os }}"
+          token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
           prerelease: false
-
-      - name: 🚀 Upload in github release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: src-tauri/target/release/*
-            asset_name: release-${{ matrix.os }}
-            asset_content_type: application/zip
+          releaseName: "Release ${GITHUB_REF}"
+          releaseNotes: "Release ${GITHUB_REF}"
+          releaseNotesFile: "release-notes.md"
+          commit: ${{ github.sha }}
+          tag: ${{ github.ref }}
+          tagPrefix: "v"
+          files: |
+            src-tauri/target/release/*
