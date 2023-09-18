@@ -21,7 +21,7 @@ jobs:
 
       - name: 🧩 Setup dependencies (linux)
         if: matrix.os == 'ubuntu-latest'
-        run: sudo apt install -y libwebkit2gtk-4.0-dev \
+        run: sudo apt update -y && sudo apt install -y libwebkit2gtk-4.0-dev \
                   build-essential \
                   curl \
                   wget \
