@@ -57,7 +57,9 @@ jobs:
         with: { toolchain: stable }
 
       - name: 🔌 Install Node.js dependencies
-        run: yarn install
+        run: |
+          yarn config set network-timeout 300000
+          yarn install
 
       - name: 🔌 Download Rust dependencies
         run: cargo fetch --manifest-path=src-tauri/Cargo.toml
