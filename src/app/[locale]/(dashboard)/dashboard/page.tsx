@@ -5,8 +5,8 @@ import {useGetCoursesQuery} from "@/redux/services/course-api";
 import {CourseCard} from "@/components/course-card";
 
 export default function Activities() {
-	const { isLoading, data } = useGetMeQuery();
-	const { data: courses } = useGetCoursesQuery(data?.id ?? "", { skip: data === undefined });
+	const { data } = useGetMeQuery();
+	const { isLoading, data: courses } = useGetCoursesQuery(data?.id ?? "", { skip: data === undefined });
 
 	console.log(courses)
 
@@ -21,9 +21,9 @@ export default function Activities() {
 			<Grid spacing={2} my={1} container>
 				{isLoading
 					? (
-						new Array(8).fill(null).map((index) => (
-							<CourseCard.Skeleton key={index} />
-						))
+						new Array(8)
+							.fill(null)
+							.map((_, index) => <CourseCard.Skeleton key={index} />)
 					)
 					: (
 						courses?.results?.map((courseRoot) => (

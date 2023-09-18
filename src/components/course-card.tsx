@@ -12,7 +12,7 @@ function Skeleton() {
 	);
 
 	return (
-		<Body expired={false} handleClick={() => {}} image={imageSkeleton}>
+		<Body clickable={false} handleClick={() => {}} image={imageSkeleton}>
 			<MuiSkeleton variant={"text"} width={"25%"}/>
 			<MuiSkeleton variant={"text"} width={"45%"}/>
 			<MuiSkeleton variant={"text"} width={"30%"}/>
@@ -24,7 +24,7 @@ function Root({ courseRoot }: { courseRoot: CourseResult }) {
 	const router = useRouter();
 	const withLocale = useWithLocale();
 	const [expired, setExpired] = useState(false);
-	const { data: bannerUrl } = courseRoot.course.banner
+	const { isLoading, data: bannerUrl } = courseRoot.course.banner
 		? useGetCourseBannerQuery(courseRoot.courseId)
 		: useGetCourseStaticBannerQuery(`nature${courseRoot.courseCardColorIndex % 20 + 1}_thumb`);
 
@@ -45,39 +45,43 @@ function Root({ courseRoot }: { courseRoot: CourseResult }) {
 		setExpired(endDateParsed < now);
 	}, [courseRoot.course.term?.endDate]);
 
-	return (
-		<Body expired={expired} handleClick={handleClick} image={bannerUrl ? (
-			<Image
-				src={bannerUrl}
-				alt={courseRoot.course.name}
-				layout={"fill"}
-				objectFit={"cover"}
-			/>
-		) : undefined}>
-			<Typography textAlign={"left"} sx={{ fontSize: 11 }} color={"text.secondary"} gutterBottom>
-				{courseRoot.courseId}
-			</Typography>
+	return isLoading
+		? <Skeleton />
+		: (
+			<Body expired={expired} handleClick={handleClick} image={bannerUrl ? (
+				<Image
+					src={bannerUrl}
+					alt={courseRoot.course.name}
+					layout={"fill"}
+					objectFit={"cover"}
+				/>
+			) : undefined}>
+				<Typography textAlign={"left"} sx={{ fontSize: 11 }} color={"text.secondary"} gutterBottom>
+					{courseRoot.courseId}
+				</Typography>
 
-			<Typography textAlign={"left"} sx={{ fontSize: 15 }}>
-				{courseRoot.course.name}
-			</Typography>
+				<Typography textAlign={"left"} sx={{ fontSize: 15 }}>
+					{courseRoot.course.name}
+				</Typography>
 
-			<Typography textAlign={"left"} sx={{ fontSize: 12 }} color={"text.secondary"}>
-				{courseRoot.course.description}
-			</Typography>
-		</Body>
-	)
+				<Typography textAlign={"left"} sx={{ fontSize: 12 }} color={"text.secondary"}>
+					{courseRoot.course.description}
+				</Typography>
+			</Body>
+		)
 }
 
 function Body({ expired, handleClick, image, clickable, children }: PropsWithChildren<{
-	expired: boolean;
+	expired?: boolean;
 	handleClick: () => void;
 	image: ReactNode;
 	clickable?: boolean;
 }>) {
+	const isDisabled = clickable === false || expired;
+
 	return (
-		<Grid xs={12} sm={12} md={6} lg={3} item>
-			<ButtonBase disabled={expired && clickable} onClick={() => handleClick()} sx={{ width: "100%", height: "100%" }}>
+		<Grid sx={{ opacity: isDisabled ? 0.5 : 1 }} xs={12} sm={12} md={6} lg={3} item>
+			<ButtonBase disabled={isDisabled} onClick={() => handleClick()} sx={{ width: "100%", height: "100%" }}>
 				<Card sx={{ width: "100%", height: "100%" }}>
 					<CardMedia sx={{ height: "7rem" }}>
 						<div style={{ position: 'relative', width: '100%', height: '100%' }}>
