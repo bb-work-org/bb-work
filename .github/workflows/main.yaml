@@ -24,7 +24,7 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt update -y
-          sudo apt-gey install -y libwebkit2gtk-4.0-dev \
+          sudo apt-get install -y libwebkit2gtk-4.0-dev \
                   build-essential \
                   curl \
                   wget \
