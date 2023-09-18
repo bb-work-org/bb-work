@@ -89,3 +89,23 @@ jobs:
           path: |
             src-tauri/target/release/*
             src-tauri/target/release/bundle/*
+
+      - name: 🚀 Upload in github release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }} - ${{ matrix.os }}
+          draft: false
+          prerelease: false
+
+      - name: 🚀 Upload in github release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: src-tauri/target/release/*
+            asset_name: release-${{ matrix.os }}
+            asset_content_type: application/zip
