@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    permissions: write-all # required for uploading artifacts
     strategy:
       fail-fast: false
       matrix:
