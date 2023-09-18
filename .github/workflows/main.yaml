@@ -1,0 +1,74 @@
+name: Build BBWork app.
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - { name: "Checkout the code", uses: actions/checkout@v2 }
+
+      - name: 🗄️ Setup Rust cache
+        uses: actions/cache@v2
+        with:
+          key: ${{ matrix.os }}-${{ hashFiles('src-tauri/Cargo.lock') }}
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git
+            ./src-tauri/target
+
+      - name: 🍃 Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: yarn
+          cache-dependency-path: |
+            yarn.lock
+
+      - name: 🦀 Install Rust
+        uses: actions-rs/toolchain@v1
+        with: { toolchain: stable }
+
+      - name: 🔌 Install Node.js dependencies
+        run: yarn install
+
+      - name: 🔌 Download Rust dependencies
+        run: cargo fetch --manifest-path=src-tauri/Cargo.toml
+
+      - name: 🏗️ 📄 Build frontend
+        run: yarn build
+
+      - name: 🏗️ 💽 Build application
+        run: yarn tauri build
+
+      - name: 🧪 Test application (linux)
+        if: matrix.os == 'ubuntu-latest'
+        continue-on-error: true
+        run: |
+          xvfb-run yarn test
+
+      - name: 🧪 Test application (non-linux)
+        if: matrix.os != 'ubuntu-latest'
+        continue-on-error: true
+        run: |
+          yarn test
+
+      - name: 🚀 Upload release artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-${{ matrix.os }}
+          path: |
+            src-tauri/target/release/*
+            src-tauri/target/release/bundle/*
