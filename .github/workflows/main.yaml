@@ -82,14 +82,6 @@ jobs:
         run: |
           yarn test
 
-      - name: 🚀 Upload release artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: release-${{ matrix.os }}
-          path: |
-            src-tauri/target/release/*
-            src-tauri/target/release/bundle/*
-
       - name: 🚀 Upload in github release
         uses: ncipollo/release-action@v1
         with:
@@ -105,3 +97,11 @@ jobs:
           tagPrefix: "v"
           files: |
             src-tauri/target/release/*
+
+      - name: 🚀 Upload release artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-${{ matrix.os }}
+          path: |
+            src-tauri/target/release/*
+            src-tauri/target/release/bundle/*
