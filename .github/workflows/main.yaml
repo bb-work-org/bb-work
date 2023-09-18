@@ -91,7 +91,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "release-${{ matrix.os }}"
+          artifacts: "bb-work_${{ steps.get_version.outputs.version }}_amd64.deb,bb-work_${{ steps.get_version.outputs.version }}_amd64.AppImage"
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
           prerelease: false
@@ -109,7 +109,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "release-${{ matrix.os }}"
+          artifacts: "bb-work_${{ steps.get_version.outputs.version }}_x64_en-US.msi,bb-work_${{ steps.get_version.outputs.version }}_x64-setup.exe"
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
           prerelease: false
