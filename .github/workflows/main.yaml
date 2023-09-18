@@ -101,12 +101,11 @@ jobs:
           tag: ${{ steps.get_version.outputs.version }}
           tagPrefix: "v"
           files: |
-            src-tauri/target/release/*
+            src-tauri/target/release/bundle/*
 
       - name: 🚀 Upload release artifacts
         uses: actions/upload-artifact@v2
         with:
           name: release-${{ matrix.os }}
           path: |
-            src-tauri/target/release/*
             src-tauri/target/release/bundle/*
