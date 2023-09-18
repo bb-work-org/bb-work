@@ -1,16 +1,32 @@
-import {ButtonBase, Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
+import {ButtonBase, Card, CardContent, CardMedia, Grid, Skeleton as MuiSkeleton, Typography} from "@mui/material";
 import {CourseResult} from "@/@types/courses";
 import Image from "next/image";
 import {useRouter} from "next/navigation";
-import {useEffect, useState} from "react";
+import React, {PropsWithChildren, ReactNode, useEffect, useState} from "react";
 import {useGetCourseBannerQuery, useGetCourseStaticBannerQuery} from "@/redux/services/banner-api";
 import {useWithLocale} from "@/hooks/useWithLocale";
 
-export default function CourseCard({ courseRoot }: { courseRoot: CourseResult }) {
+function ImageSkeleton() {
+	return (
+		<MuiSkeleton variant={"rectangular"} height={"100%"}/>
+	)
+}
+
+function Skeleton() {
+	return (
+		<Body clickable={false} handleClick={() => {}} image={<ImageSkeleton/>}>
+			<MuiSkeleton variant={"text"} width={"25%"}/>
+			<MuiSkeleton variant={"text"} width={"45%"}/>
+			<MuiSkeleton variant={"text"} width={"30%"}/>
+		</Body>
+	)
+}
+
+function Root({ courseRoot }: { courseRoot: CourseResult }) {
 	const router = useRouter();
 	const withLocale = useWithLocale();
 	const [expired, setExpired] = useState(false);
-	const { data: bannerUrl } = courseRoot.course.banner
+	const { isLoading, data: bannerUrl } = courseRoot.course.banner
 		? useGetCourseBannerQuery(courseRoot.courseId)
 		: useGetCourseStaticBannerQuery(`nature${courseRoot.courseCardColorIndex % 20 + 1}_thumb`);
 
@@ -31,19 +47,48 @@ export default function CourseCard({ courseRoot }: { courseRoot: CourseResult })
 		setExpired(endDateParsed < now);
 	}, [courseRoot.course.term?.endDate]);
 
+	return isLoading
+		? <Skeleton />
+		: (
+			<Body expired={expired} handleClick={handleClick} image={bannerUrl
+				? <Image
+					src={bannerUrl}
+					alt={courseRoot.course.name}
+					layout={"fill"}
+					objectFit={"cover"}
+				/>
+				: <ImageSkeleton/>
+			}>
+				<Typography textAlign={"left"} sx={{ fontSize: 11 }} color={"text.secondary"} gutterBottom>
+					{courseRoot.courseId}
+				</Typography>
+
+				<Typography textAlign={"left"} sx={{ fontSize: 15 }}>
+					{courseRoot.course.name}
+				</Typography>
+
+				<Typography textAlign={"left"} sx={{ fontSize: 12 }} color={"text.secondary"}>
+					{courseRoot.course.description}
+				</Typography>
+			</Body>
+		)
+}
+
+function Body({ expired, handleClick, image, clickable, children }: PropsWithChildren<{
+	expired?: boolean;
+	handleClick: () => void;
+	image: ReactNode;
+	clickable?: boolean;
+}>) {
+	const isDisabled = clickable === false || expired;
+
 	return (
-		<Grid sx={{ opacity: expired ? 0.5 : 1 }} xs={12} sm={12} md={6} lg={3} item>
-			<ButtonBase disabled={expired} onClick={() => handleClick()} sx={{ width: "100%", height: "100%" }}>
+		<Grid sx={{ opacity: isDisabled ? 0.5 : 1 }} xs={12} sm={12} md={6} lg={3} item>
+			<ButtonBase disabled={isDisabled} onClick={() => handleClick()} sx={{ width: "100%", height: "100%" }}>
 				<Card sx={{ width: "100%", height: "100%" }}>
 					<CardMedia sx={{ height: "7rem" }}>
 						<div style={{ position: 'relative', width: '100%', height: '100%' }}>
-							<Image
-								src={ bannerUrl ?? "" }
-								style={{ width: "100%", height: "100%", objectFit: "cover" }}
-								alt={courseRoot.course.bannerAltText ?? "Banner"}
-								width={0}
-								height={0}
-							/>
+							{image}
 						</div>
 					</CardMedia>
 
@@ -52,20 +97,15 @@ export default function CourseCard({ courseRoot }: { courseRoot: CourseResult })
 						flexDirection: "column",
 						alignItems: "flex-start"
 					}}>
-						<Typography textAlign={"left"} sx={{ fontSize: 11 }} color={"text.secondary"} gutterBottom>
-							{courseRoot.courseId}
-						</Typography>
-
-						<Typography textAlign={"left"} sx={{ fontSize: 15 }}>
-							{courseRoot.course.name}
-						</Typography>
-
-						<Typography textAlign={"left"} sx={{ fontSize: 12 }} color={"text.secondary"}>
-							{courseRoot.course.description}
-						</Typography>
+						{children}
 					</CardContent>
 				</Card>
 			</ButtonBase>
 		</Grid>
 	)
+}
+
+export const CourseCard = {
+	Root,
+	Skeleton
 }

@@ -1,40 +1,69 @@
-import { ListItem, ListItemText, Tooltip } from "@mui/material";
-import { Done, QueryBuilder } from "@mui/icons-material";
-import { Activity } from "@/@types/activities";
-import { useGetAttemptsQuery } from "@/redux/services/activity-api";
+import {ListItem, ListItemText, Skeleton as MuiSkeleton, Tooltip} from "@mui/material";
+import {Done, QueryBuilder} from "@mui/icons-material";
+import {Activity} from "@/@types/activities";
+import {useGetAttemptsQuery} from "@/redux/services/activity-api";
+import {PropsWithChildren, ReactNode} from "react";
 
-export default function ActivityCard({ activity }: { activity: Activity }) {
-	const { data } = useGetAttemptsQuery({
+function Skeleton() {
+	return (
+		<Body
+			primary={<MuiSkeleton width={`${Math.random() * 20 + 10}%`} />}
+			secondary={<MuiSkeleton width={`${Math.random() * 30 + 10}%`} />}
+		>
+			<MuiSkeleton variant={"circular"} width={24} height={24} />
+		</Body>
+	)
+}
+
+function Root({ activity }: { activity: Activity }) {
+	const { isLoading, data } = useGetAttemptsQuery({
 		activityId: activity.contentDetail[activity.contentHandler as "resource/x-bb-assignment"]!.gradingColumn.id,
 		courseId: activity.courseId
 	});
 
-	return (
-		<ListItem key={activity.id} divider>
-			<ListItemText
+	return isLoading
+		? <Skeleton />
+		: (
+			<Body
 				primary={activity.title}
 				secondary={activity.id}
+			>
+				{
+					data && Object.keys(data.lookup).length !== 0
+						  ? (
+							<Tooltip title={"Completed"}>
+								<Done/>
+							</Tooltip>
+						  )
+						  : undefined
+				}
+
+				{
+					activity.adaptiveReleaseRules
+						? (
+							<Tooltip title={new Date(activity.adaptiveReleaseRules.endDate).toLocaleDateString()}>
+								<QueryBuilder />
+							</Tooltip>
+						  )
+						: undefined
+				}
+			</Body>
+		)
+}
+
+function Body({ primary, secondary, children }: PropsWithChildren<{ primary: ReactNode; secondary: ReactNode; }>) {
+	return (
+		<ListItem divider>
+			<ListItemText
+				primary={primary}
+				secondary={secondary}
 			/>
-
-			{
-				data && Object.keys(data.lookup).length !== 0
-					  ? (
-						<Tooltip title={"Completed"}>
-							<Done/>
-						</Tooltip>
-					  )
-					  : undefined
-			}
-
-			{
-				activity.adaptiveReleaseRules
-					? (
-						<Tooltip title={new Date(activity.adaptiveReleaseRules.endDate).toLocaleDateString()}>
-							<QueryBuilder />
-						</Tooltip>
-					  )
-					: undefined
-			}
+			{children}
 		</ListItem>
 	)
+}
+
+export const ActivityCard = {
+	Root,
+	Skeleton
 }
