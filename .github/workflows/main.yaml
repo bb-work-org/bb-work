@@ -85,7 +85,7 @@ jobs:
 
       - name: 📄 Get package version
         id: get_version
-        run: echo ::set-output name=version::$(node -p "require('./package.json').version")
+        run: echo "::set-output name=version::$(node -p "require('./package.json').version")"
 
       - name: 🚀 Upload in github release (linux)
         if: matrix.os == 'ubuntu-latest'
@@ -95,10 +95,6 @@ jobs:
             src-tauri/target/release/bundle/appimage/*.AppImage,
             src-tauri/target/release/bundle/deb/*.deb
           token: ${{ secrets.GITHUB_TOKEN }}
-          body: |
-            # BBWork v${{ steps.get_version.outputs.version }}
-            ## Changelog
-            $(git log --pretty=format:"* %s" $(git describe --tags --abbrev=0)..HEAD)
           draft: false
           prerelease: false
           allowUpdates: true
