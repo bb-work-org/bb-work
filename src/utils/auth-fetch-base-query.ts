@@ -26,14 +26,15 @@ export const authFetchBaseQuery =
 	> =>
 	async ({ url, method = "GET", options }, { getState }) => {
 		try {
-			const { bbSession } = (getState() as RootState).auth;
+			const { bbSession, xsrfToken } = (getState() as RootState).auth;
 
 			const response = await fetch(`${baseUrl}${url}`, {
-				...options,
 				method,
+				...options,
 				headers: {
 					...options?.headers,
 					Cookie: bbSession,
+					"X-Blackboard-XSRF": xsrfToken,
 				},
 			});
 
