@@ -5,6 +5,7 @@ type AuthState = {
 	loading: boolean;
 	loggedIn: boolean;
 	bbSession?: string;
+	xsrfToken?: string;
 };
 
 const initialState: AuthState = {
@@ -20,6 +21,7 @@ const authSlice = createSlice({
 			state.loading = false;
 			state.loggedIn = false;
 			state.bbSession = undefined;
+			state.xsrfToken = undefined;
 		},
 	},
 	extraReducers: (builder) => {
@@ -30,6 +32,7 @@ const authSlice = createSlice({
 			state.loading = false;
 			state.loggedIn = true;
 			state.bbSession = action.payload?.bbSession;
+			state.xsrfToken = action.payload?.xsrfToken;
 		});
 		builder.addCase(signIn.rejected, (state, action) => {
 			state.loading = false;
