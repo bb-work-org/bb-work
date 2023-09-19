@@ -29,8 +29,8 @@ export const authFetchBaseQuery =
 			const { bbSession } = (getState() as RootState).auth;
 
 			const response = await fetch(`${baseUrl}${url}`, {
-				...options,
 				method,
+				...options,
 				headers: {
 					...options?.headers,
 					Cookie: bbSession,
