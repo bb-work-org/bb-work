@@ -16,8 +16,9 @@ function Skeleton() {
 }
 
 function Root({ activity }: { activity: Activity }) {
+	const gradingColumn = activity.contentDetail[activity.contentHandler as "resource/x-bb-assignment"]!.gradingColumn;
 	const { isLoading, data } = useGetAttemptsQuery({
-		activityId: activity.contentDetail[activity.contentHandler as "resource/x-bb-assignment"]!.gradingColumn.id,
+		activityId: gradingColumn.id,
 		courseId: activity.courseId
 	});
 
@@ -39,9 +40,9 @@ function Root({ activity }: { activity: Activity }) {
 				}
 
 				{
-					activity.adaptiveReleaseRules
+					activity.adaptiveReleaseRules ?? gradingColumn.dueDate
 						? (
-							<Tooltip title={new Date(activity.adaptiveReleaseRules.endDate).toLocaleDateString()}>
+							<Tooltip title={new Date(activity?.adaptiveReleaseRules?.endDate ?? gradingColumn.dueDate).toLocaleDateString()}>
 								<QueryBuilder />
 							</Tooltip>
 						  )

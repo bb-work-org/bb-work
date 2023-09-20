@@ -3,6 +3,7 @@ import {authFetchBaseQuery} from "@/utils/auth-fetch-base-query";
 import {getApi} from "@/utils/get-api";
 import {CourseResponse} from "@/@types/courses";
 import {ActivityResult} from "@/@types/activities";
+import {ResponseType} from "@tauri-apps/api/http";
 
 export const courseApi = createApi({
 	reducerPath: "courseApi",
@@ -28,6 +29,7 @@ export const courseApi = createApi({
 					query: {
 						recursive: "true"
 					},
+					responseType: ResponseType.JSON,
 					method: "GET"
 				}
 			})
