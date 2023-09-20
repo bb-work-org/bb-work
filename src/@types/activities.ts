@@ -7,7 +7,7 @@ export interface ActivityResult {
 		offset: number;
 		previousPage: string;
 	};
-	results: Activity[];
+	results?: Activity[];
 }
 
 export interface Activity {
@@ -91,6 +91,7 @@ export interface GradingColumn {
 	peerGrading: boolean
 	delegatedGrading: boolean
 	contentId: string
+	dueDate: string
 	anonymousGrading: boolean
 	dateCreated: string
 	deleted: boolean

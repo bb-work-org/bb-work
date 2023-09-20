@@ -8,10 +8,12 @@ import { settingsReducer } from "@/redux/features/settings-slice";
 import {courseApi} from "@/redux/services/course-api";
 import {activityApi} from "@/redux/services/activity-api";
 import {bannerApi} from "@/redux/services/banner-api";
+import {activitiesReducer} from "./features/activities-slice";
 
 export const rootReducers = combineReducers({
 	auth: authReducer,
 	settings: settingsReducer,
+	activities: activitiesReducer,
 	[userApi.reducerPath]: userApi.reducer,
 	[courseApi.reducerPath]: courseApi.reducer,
 	[activityApi.reducerPath]: activityApi.reducer,
