@@ -1,7 +1,9 @@
-import { ActivityWithChildren, ContentHandler } from "@/@types/activities";
-import { Assignment, Link, ExpandLess, ExpandMore, Folder, InsertDriveFile, Article, Book } from "@mui/icons-material";
-import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { useState } from "react";
+import {ActivityWithChildren, ContentHandler} from "@/@types/activities";
+import {Article, Assignment, Book, ExpandLess, ExpandMore, Folder, InsertDriveFile, Link} from "@mui/icons-material";
+import {Collapse, List, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import {useState} from "react";
+import {useWithLocale} from "@/hooks/useWithLocale";
+import {useRouter} from "next/navigation";
 
 function getIconByType(type: ContentHandler) {
     switch (type) {
@@ -30,6 +32,20 @@ function getIconByType(type: ContentHandler) {
 
 export default function CourseContent({ activity }: { activity: ActivityWithChildren }) {
     const [open, setOpen] = useState(false);
+    const locale = useWithLocale();
+    const router = useRouter();
+
+    function handleClick() {
+        let contentType = "courses";
+
+        switch (activity.contentHandler) {
+            case "resource/x-bb-assignment":
+                contentType = "activities";
+                break;
+        }
+
+        router.push(locale(`/${contentType}/${activity.courseId}/${activity.id}`));
+    }
 
     return (
         activity.children && activity.children.length > 0
@@ -46,7 +62,7 @@ export default function CourseContent({ activity }: { activity: ActivityWithChil
                     
                     <Collapse in={open} timeout={"auto"} unmountOnExit>
                         <List sx={{ pl: 3 }}>
-                            {activity.children?.map((children, index) => (
+                            {activity.children.map((children, index) => (
                                 <CourseContent activity={children} key={index}/>
                             ))}
                         </List>
@@ -54,7 +70,9 @@ export default function CourseContent({ activity }: { activity: ActivityWithChil
                 </>
             )
             : (
-                <ListItemButton>
+                <ListItemButton
+                    onClick={() => handleClick()}
+                >
                     <ListItemIcon>
                         {getIconByType(activity.contentHandler)}
                     </ListItemIcon>
