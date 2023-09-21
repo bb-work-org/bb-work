@@ -10,6 +10,8 @@ export interface ActivityResult {
 	results?: Activity[];
 }
 
+export type ActivityWithChildren = Activity & { children?: ActivityWithChildren[] };
+
 export interface Activity {
 	iconUrl: string
 	launchInNewWindow: boolean
@@ -38,9 +40,11 @@ export interface Activity {
 	adaptiveReleaseRules?: AdaptiveReleaseRules
 }
 
-type ContentHandler = "resource/x-bb-folder"
+export type ContentHandler = "resource/x-bb-folder"
 	| "resource/x-bb-file"
 	| "resource/x-bb-assignment"
+	| "resource/x-bb-lesson"
+	| "resource/x-bb-document"
 	| "resource/x-bb-externallink";
 
 export interface ContentDetail {

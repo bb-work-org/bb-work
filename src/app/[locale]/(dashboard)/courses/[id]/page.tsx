@@ -1,29 +1,78 @@
 "use client";
-import {List} from "@mui/material";
+import {Link, List, ListItem, ListItemButton, ListItemText, Typography} from "@mui/material";
 import {useGetCourseContentsQuery} from "@/redux/services/course-api";
 import {ActivityCard} from "@/components/activity-card";
+import { useEffect, useState } from "react";
+import { ActivityWithChildren } from "@/@types/activities";
+import CourseContent from "@/components/course-content";
+
+
 
 export default function CourseActivities({ params }: { params: { id: string }} ) {
-    const { isLoading, data } = useGetCourseContentsQuery(params.id);
+    const { data, refetch } = useGetCourseContentsQuery(params.id);
+    const [contents, setContents] = useState<ActivityWithChildren[]>();
 
     console.log(data, params.id)
 
+    useEffect(() => {
+        if (!data?.results) {
+            return;
+        }
+
+        const courseContents = [];
+        const results: ActivityWithChildren[] = data.results//.filter((content) => content.contentHandler !== "resource/x-bb-assignment");
+
+        const getChildren = (parentId: string) => {
+            const children: ActivityWithChildren[] = [];
+
+            for (const content of results) {
+                if (content.parentId === parentId) {
+                    const contentChildren = getChildren(content.id);
+
+                    console.log(contentChildren.length, contentChildren)
+                    children.push({
+                        ...content,
+                        children: contentChildren
+                    });
+                }
+            }
+            
+            return children;
+        }
+
+        for (const content of results) {
+            if (content.parentId === undefined) {
+                const children = getChildren(content.id);
+
+                if (children.length > 0) {
+                    courseContents.push({ ...content, children });
+                }
+            }
+        }
+
+        console.log(courseContents)
+        setContents(courseContents);
+    }, [data?.results])
+
     return (
         <List sx={{ p: 3 }}>
-            {isLoading
+            {!contents
                 ? (
                     new Array(7)
                         .fill(null)
                         .map((_, index) => <ActivityCard.Skeleton key={index} />)
                 )
-                : (
-                    data?.results?.map((activity) => {
-                        if (activity.contentHandler !== "resource/x-bb-assignment") {
-                            return;
-                        }
-
-                        return <ActivityCard.Root key={activity.id} activity={activity} />
-                    })
+                : contents.length > 0 ? (
+                    contents.map((content, index) => ( 
+                        <CourseContent activity={content} key={index}/>
+                    )) // todo: add support to i18n
+                ) : (
+                    <Typography display={"flex"} flexDirection={"row"} gap={0.6} justifyContent={"center"}>
+                        No content found,
+                        <Link component={"button"} variant={"body2"} underline={"always"} onClick={() => refetch()}>
+                            retry
+                        </Link>
+                    </Typography>
                 )
             }
         </List>
