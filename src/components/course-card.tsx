@@ -82,8 +82,8 @@ function Root({ courseRoot }: { courseRoot: CourseResult }) {
 					<Image
 						src={bannerUrl}
 						alt={courseRoot.course.name}
-						layout={"fill"}
-						objectFit={"cover"}
+						className="object-cover"
+						fill
 					/>
 				) : (
 					<ImageSkeleton />
