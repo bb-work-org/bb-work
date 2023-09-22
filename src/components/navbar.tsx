@@ -19,19 +19,19 @@ import {
 	Toolbar,
 	Typography
 } from "@mui/material";
-import { stringAvatar } from "@/helpers/text-to-avatar";
-import { useGetMeQuery } from "@/redux/services/user-api";
-import React, { FC, PropsWithChildren, useState } from "react";
-import { AccountCircle, Logout, Menu as MenuIcon, Settings } from "@mui/icons-material";
-import { signOut } from "@/redux/actions/auth-action";
-import { useAppDispatch } from "@/redux/hooks";
+import {stringAvatar} from "@/helpers/text-to-avatar";
+import {useGetMeQuery} from "@/redux/services/user-api";
+import React, {FC, PropsWithChildren, useState} from "react";
+import {AccountCircle, Logout, Menu as MenuIcon, Settings} from "@mui/icons-material";
+import {signOut} from "@/redux/actions/auth-action";
+import {useAppDispatch} from "@/redux/hooks";
 import Link from "next/link";
-import { formatName } from "@/helpers/format-name";
-import { checkDefaultProfile } from "@/helpers/check-default-profile";
-import { DashboardRoute } from "@/@types/dashboard-routes";
-import { usePathname } from "next/navigation";
-import { useWithLocale } from "@/hooks/useWithLocale";
-import { useTranslations } from "use-intl";
+import {formatName} from "@/helpers/format-name";
+import {checkDefaultProfile} from "@/helpers/check-default-profile";
+import {DashboardRoute} from "@/@types/dashboard-routes";
+import {usePathname} from "next/navigation";
+import {useWithLocale} from "@/hooks/useWithLocale";
+import {useTranslations} from "use-intl";
 
 const drawerWidth = 240;
 
@@ -102,7 +102,7 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 		window !== undefined ? () => window().document.body : undefined;
 
 	return (
-		<>
+		<div className={"flex flex-col h-full"}>
 			<AppBar
 				position="static"
 				sx={{
@@ -203,11 +203,13 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 					{drawer}
 				</Drawer>
 			</Box>
+
 			<Box
 				component="main"
 				sx={{
 					width: { sm: `calc(100% - ${drawerWidth}px)` },
 					ml: { sm: `${drawerWidth}px` },
+					flexGrow: 1
 				}}
 			>
 				{children}
@@ -244,6 +246,6 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({
 					<ListItemText primary={t("signOut")} />
 				</MenuItem>
 			</Menu>
-		</>
+		</div>
 	);
 };
