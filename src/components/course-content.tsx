@@ -42,6 +42,14 @@ export default function CourseContent({ activity }: { activity: ActivityWithChil
             case "resource/x-bb-assignment":
                 contentType = "activities";
                 break;
+            case "resource/x-bb-externallink":
+                // todo: handle external link
+                contentType = "";
+                break;
+        }
+
+        if (contentType === "") {
+            return;
         }
 
         router.push(locale(`/${contentType}/${activity.courseId}/${activity.id}`));

@@ -1,12 +1,10 @@
 "use client";
-import {Link, List, ListItem, ListItemButton, ListItemText, Typography} from "@mui/material";
+import {Link, List, Typography} from "@mui/material";
 import {useGetCourseContentsQuery} from "@/redux/services/course-api";
 import {ActivityCard} from "@/components/activity-card";
-import { useEffect, useState } from "react";
-import { ActivityWithChildren } from "@/@types/activities";
+import {useEffect, useState} from "react";
+import {ActivityWithChildren} from "@/@types/activities";
 import CourseContent from "@/components/course-content";
-
-
 
 export default function CourseActivities({ params }: { params: { id: string }} ) {
     const { data, refetch } = useGetCourseContentsQuery(params.id);
@@ -29,7 +27,6 @@ export default function CourseActivities({ params }: { params: { id: string }} )
                 if (content.parentId === parentId) {
                     const contentChildren = getChildren(content.id);
 
-                    console.log(contentChildren.length, contentChildren)
                     children.push({
                         ...content,
                         children: contentChildren
