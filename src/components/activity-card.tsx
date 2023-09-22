@@ -2,7 +2,7 @@ import {ListItem, ListItemText, Skeleton as MuiSkeleton, Tooltip} from "@mui/mat
 import {Done, QueryBuilder} from "@mui/icons-material";
 import {Activity} from "@/@types/activities";
 import {useGetAttemptsQuery} from "@/redux/services/activity-api";
-import {PropsWithChildren, ReactNode} from "react";
+import {PropsWithChildren, ReactNode, useCallback} from "react";
 
 function Skeleton() {
 	return (
@@ -21,6 +21,14 @@ function Root({ activity }: { activity: Activity }) {
 		activityId: gradingColumn.id,
 		courseId: activity.courseId
 	});
+
+	const getExpireDate = useCallback((endDate: string) => {
+		const now = new Date();
+		const end = new Date(endDate);
+		const diff = new Date(end.getTime() - now.getTime());
+
+		return `${end.toLocaleDateString()} - ${diff.getDate()} days left`; // need i18n
+	}, []);
 
 	return isLoading
 		? <Skeleton />
@@ -42,7 +50,7 @@ function Root({ activity }: { activity: Activity }) {
 				{
 					activity.adaptiveReleaseRules ?? gradingColumn.dueDate
 						? (
-							<Tooltip title={new Date(activity?.adaptiveReleaseRules?.endDate ?? gradingColumn.dueDate).toLocaleDateString()}>
+							<Tooltip title={getExpireDate(activity?.adaptiveReleaseRules?.endDate ?? gradingColumn.dueDate)}>
 								<QueryBuilder />
 							</Tooltip>
 						  )
