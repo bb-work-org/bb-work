@@ -8,32 +8,32 @@ export const lightTheme = createTheme({
 		MuiCssBaseline: {
 			styleOverrides: {
 				body: {
-					scrollbarColor: "#272727 #121212",
+					scrollbarColor: "#e0e0e0 #f0f0f0",
 					"&::-webkit-scrollbar, & *::-webkit-scrollbar": {
 						width: 12,
 					},
 					"&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb":
 						{
 							borderRadius: 8,
-							backgroundColor: "#6b6b6b",
+							backgroundColor: "#b0b0b0",
 							minHeight: 24,
-							border: "3px solid #121212",
+							border: "3px solid #fff",
 						},
 					"&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus":
 						{
-							backgroundColor: "#959595",
+							backgroundColor: "#808080",
 						},
 					"&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active":
 						{
-							backgroundColor: "#959595",
+							backgroundColor: "#808080",
 						},
 					"&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover":
 						{
-							backgroundColor: "#959595",
+							backgroundColor: "#808080",
 						},
 					"&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner":
 						{
-							backgroundColor: "#2b2b2b",
+							backgroundColor: "#d0d0d0",
 						},
 				},
 			},
