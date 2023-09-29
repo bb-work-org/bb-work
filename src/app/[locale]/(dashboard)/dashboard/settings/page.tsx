@@ -11,7 +11,7 @@ import {
 	Typography,
 } from "@mui/material";
 import { Check, Language } from "@mui/icons-material";
-import { BottomModal } from "@/components/bottom-modal";
+import { BottomModal } from "@/components/bottom-modal/bottom-modal";
 import { DialogBody } from "next/dist/client/components/react-dev-overlay/internal/components/Dialog";
 import { languages } from "@/i18n/settings";
 import { languageFormat } from "@/helpers/language-format";
