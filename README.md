@@ -11,13 +11,13 @@ An automated program to make Blackboard work easier.
 ## Getting Started
 
 ### Features
-- [x] Easy to use
-- [x] Fast and reliable
-- [x] Open source
-- [x] No ads
-- [x] No tracking
-- [x] No data collection
-- [x] No telemetry
+- ✅ Easy to use
+- ✅ Fast and reliable
+- ✅ Open source
+- ✅ No ads
+- ✅ No tracking
+- ✅ No data collection
+- ✅ No telemetry
 
 ### How to use
 1. Download the latest release from the [releases](https://github.com/bb-work-org/bb-work/releases)
