@@ -34,7 +34,7 @@
     "next": "13.4.19",
     "next-intl": "^2.20.0",
     "notistack": "^3.0.1",
-    "postcss": "8.4.29",
+    "postcss": "8.4.31",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.46.1",
