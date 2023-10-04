@@ -1,20 +1,24 @@
-const os = require("os");
-const path = require("path");
-const { spawn, spawnSync } = require("child_process");
+import os from "os";
+import path from "path";
+import { spawn, spawnSync } from "child_process";
+import type { Capabilities } from "@wdio/types";
 
-// keep track of the `tauri-driver` child process
-let tauriDriver;
+let tauriDriver: ReturnType<typeof spawn>;
 
-exports.config = {
-	specs: ["./test/specs/**/*.js"],
+const binary = process.platform === "win32" ? "bb-work.exe" : "bb-work";
+
+export const config: WebdriverIO.Config = {
+	specs: ["./specs/**/*.ts"],
 	maxInstances: 1,
 	capabilities: [
 		{
 			maxInstances: 1,
 			"tauri:options": {
-				application: "../../target/release/hello-tauri-webdriver",
+				application: `../../target/release/${binary}`,
 			},
-		},
+
+			"ms:edgeOptions": {},
+		} as Capabilities.Capabilities,
 	],
 	reporters: ["spec"],
 	framework: "mocha",
@@ -23,8 +27,13 @@ exports.config = {
 		timeout: 60000,
 	},
 
+	logLevel: "warn",
+
 	// ensure the rust project is built since we expect this binary to exist for the webdriver sessions
-	onPrepare: () => spawnSync("cargo", ["build", "--release"]),
+	onPrepare: () =>
+		spawnSync(["cd ../../", "yarn tauri build"].join(" && "), {
+			stdio: [null, process.stdout, process.stderr],
+		}),
 
 	// ensure we are running `tauri-driver` before the session starts so that we can proxy the webdriver requests
 	beforeSession: () =>
