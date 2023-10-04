@@ -25,7 +25,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@tauri-apps/api": "^1.4.0",
     "@types/node": "20.5.9",
-    "@types/react": "18.2.21",
+    "@types/react": "18.2.24",
     "@types/react-dom": "18.2.7",
     "@wdio/cli": "^8.16.10",
     "@wdio/local-runner": "^8.16.10",
