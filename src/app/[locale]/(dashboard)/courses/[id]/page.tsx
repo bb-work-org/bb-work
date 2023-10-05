@@ -1,10 +1,10 @@
 "use client";
-import { Link, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
+import { Link, List, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { type ActivityWithChildren } from "@/@types/activities";
 import { ActivityCard } from "@/components/activity-card";
+import CourseContent from "@/components/course-content/course-content";
 import { useGetCourseContentsQuery } from "@/redux/services/course-api";
-import CourseContent from "@/components/course-content";
 
 export default function CourseActivities({ params }: { params: { id: string } }) {
   const { data, refetch } = useGetCourseContentsQuery(params.id);
