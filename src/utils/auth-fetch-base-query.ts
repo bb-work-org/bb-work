@@ -21,7 +21,7 @@ export const authFetchBaseQuery =
     },
     unknown,
     unknown,
-    {},
+    NonNullable<unknown>,
     Meta
   > =>
   async ({ url, method = "GET", options }, { getState }) => {

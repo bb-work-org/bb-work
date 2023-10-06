@@ -41,10 +41,10 @@ export default function SignForm() {
   });
 
   useEffect(() => {
-    if (settings.locale != locale) redirect(`/${settings.locale}`);
+    if (settings.locale !== locale) redirect(`/${settings.locale}`);
 
     if (loggedIn) route.push(withLocale("/dashboard"));
-  }, [loggedIn]);
+  }, [locale, loggedIn, route, settings.locale, withLocale]);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     dispatch(signIn(data));

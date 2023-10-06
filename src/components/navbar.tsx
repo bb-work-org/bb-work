@@ -61,12 +61,12 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({ children, window, routes 
       </Toolbar>
       <Divider />
       <List>
-        {routes.map((route, index) => {
+        {routes.map((route) => {
           return (
             <ListItem component={Link} key={route.name} href={withLocale(route.path)} disablePadding>
               <ListItemButton selected={pathname === withLocale(route.path)}>
                 <ListItemIcon>{route.icon}</ListItemIcon>
-                <ListItemText primary={t2(route.name as any)} />
+                <ListItemText primary={t2(route.name as never)} />
               </ListItemButton>
             </ListItem>
           );
