@@ -1,5 +1,5 @@
 "use client";
-import { AccountCircle, Logout, Menu as MenuIcon, Settings } from "@mui/icons-material";
+import { AccountCircle, ArrowBack, Logout, Menu as MenuIcon, Settings } from "@mui/icons-material";
 import {
   AppBar,
   Avatar,
@@ -21,8 +21,8 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React, { type FC, type PropsWithChildren, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { type FC, type PropsWithChildren, useEffect, useState } from "react";
 import { useTranslations } from "use-intl";
 import { type DashboardRoute } from "@/@types/dashboard-routes";
 import { checkDefaultProfile } from "@/helpers/check-default-profile";
@@ -43,6 +43,8 @@ interface Props {
 export const Navbar: FC<PropsWithChildren<Props>> = ({ children, window, routes }) => {
   const dispatch = useAppDispatch();
   const pathname = usePathname();
+  const router = useRouter();
+
   const t = useTranslations("profile");
   const t2 = useTranslations("dashboard");
   const withLocale = useWithLocale();
@@ -51,6 +53,11 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({ children, window, routes 
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState<null | HTMLElement>(null);
+  const [showBackButton, setShowBackButton] = useState(false);
+
+  useEffect(() => {
+    setShowBackButton(!routes.map((route) => withLocale(route.path) === pathname).includes(true));
+  }, [pathname, routes, withLocale]);
 
   const drawer = (
     <>
@@ -100,16 +107,25 @@ export const Navbar: FC<PropsWithChildren<Props>> = ({ children, window, routes 
       >
         <Toolbar>
           <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2} className="w-full">
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: "none" } }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Box sx={{ display: { xs: "none", sm: "flex" } }} />
+            {!showBackButton ? (
+              <>
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  edge="start"
+                  onClick={handleDrawerToggle}
+                  sx={{ mr: 2, display: { sm: "none" } }}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Box sx={{ display: { xs: "none", sm: "flex" } }} />
+              </>
+            ) : (
+              <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={() => router.back()}>
+                <ArrowBack />
+              </IconButton>
+            )}
+
             <Stack direction="row" spacing={2} alignItems="center">
               {isLoading ? (
                 <>
