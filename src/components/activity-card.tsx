@@ -16,10 +16,10 @@ function Skeleton() {
 }
 
 function Root({ activity }: { activity: Activity }) {
-  const gradingColumn = activity.contentDetail[activity.contentHandler as "resource/x-bb-assignment"]!.gradingColumn;
+  const gradingColumn = activity.contentDetail[activity.contentHandler as "resource/x-bb-assignment"]?.gradingColumn;
   const { isLoading, data } = useGetAttemptsQuery({
-    activityId: gradingColumn.id,
-    courseId: activity.courseId,
+    activityId: gradingColumn?.id,
+    courseId: activity?.courseId,
   });
 
   const getExpireDate = useCallback((endDate: string) => {
@@ -40,8 +40,8 @@ function Root({ activity }: { activity: Activity }) {
         </Tooltip>
       ) : undefined}
 
-      {activity.adaptiveReleaseRules ?? gradingColumn.dueDate ? (
-        <Tooltip title={getExpireDate(activity?.adaptiveReleaseRules?.endDate ?? gradingColumn.dueDate)}>
+      {activity.adaptiveReleaseRules ?? gradingColumn?.dueDate ? (
+        <Tooltip title={getExpireDate(activity?.adaptiveReleaseRules?.endDate ?? gradingColumn?.dueDate ?? "")}>
           <QueryBuilder />
         </Tooltip>
       ) : undefined}

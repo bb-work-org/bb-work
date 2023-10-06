@@ -12,7 +12,7 @@ function ImageSkeleton() {
 
 function Skeleton() {
   return (
-    <Body clickable={false} handleClick={() => {}} image={<ImageSkeleton />}>
+    <Body clickable={false} handleClick={() => undefined} image={<ImageSkeleton />}>
       <MuiSkeleton variant={"text"} width={"25%"} />
       <MuiSkeleton variant={"text"} width={"45%"} />
       <MuiSkeleton variant={"text"} width={"30%"} />

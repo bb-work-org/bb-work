@@ -28,7 +28,7 @@ export default function Layout({ children }: PropsWithChildren) {
         variant: "warning",
       });
     }
-  }, [auth?.status, loggedIn]);
+  }, [auth?.status, dispatch, loggedIn, router, withLocale]);
 
   return (
     <div className="h-screen w-full">

@@ -1,7 +1,7 @@
 "use client";
 import { Dialog, styled } from "@mui/material";
 
-export const BottomModal = styled(Dialog)(({ theme }) => ({
+export const BottomModal = styled(Dialog)(() => ({
   "& .MuiDialog-container": {
     alignItems: "flex-end",
   },

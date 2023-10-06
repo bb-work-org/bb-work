@@ -6,9 +6,9 @@ export const activityApi = createApi({
   reducerPath: "activityApi",
   baseQuery: authFetchBaseQuery({ baseUrl: getApi() }),
   endpoints: (builder) => ({
-    getAttempts: builder.query<{ lookup: Record<string, any> }, { courseId: string; activityId: string }>({
-      query: (data) => ({
-        url: `/learn/api/v1/courses/${data.courseId}/gradebook/columns/${data.activityId}/attempts`,
+    getAttempts: builder.query<{ lookup: Record<string, unknown> }, { courseId?: string; activityId?: string }>({
+      query: ({ courseId, activityId }) => ({
+        url: `/learn/api/v1/courses/${courseId ?? ""}/gradebook/columns/${activityId ?? ""}/attempts`,
       }),
     }),
   }),

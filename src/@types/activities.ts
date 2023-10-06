@@ -113,7 +113,7 @@ export interface GradingColumn {
   limitedAttendance: boolean;
   userCreatedColumn: boolean;
   autoPostGrades: boolean;
-  ltiDomainId: any;
+  ltiDomainId: never;
   gradesReleased: boolean;
   enforceDueDate: boolean;
   position: number;
@@ -130,7 +130,7 @@ export interface GradebookCategory {
   courseId: string;
   title: string;
   localizableTitle: LocalizableTitle;
-  description: any;
+  description: never;
   id: string;
 }
 
@@ -215,5 +215,5 @@ export interface Dates {
 
 export interface AdaptiveReleaseRules {
   endDate: string;
-  startDate: any;
+  startDate: never;
 }

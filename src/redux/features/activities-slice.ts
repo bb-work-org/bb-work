@@ -5,7 +5,7 @@ import { getActivities } from "@/redux/actions/activities-action";
 interface ActivitiesState {
   loading: boolean;
   activities: Activity[];
-  chunks: any[];
+  chunks: unknown[];
 }
 
 const initialState: ActivitiesState = {

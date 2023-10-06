@@ -87,8 +87,8 @@ export interface Term {
 export interface Description {
   rawText: string;
   displayText: string;
-  webLocation: any;
-  fileLocation: any;
+  webLocation: never;
+  fileLocation: never;
 }
 
 export interface Permissions {

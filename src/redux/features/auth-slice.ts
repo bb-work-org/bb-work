@@ -34,7 +34,7 @@ const authSlice = createSlice({
       state.bbSession = action.payload?.bbSession;
       state.xsrfToken = action.payload?.xsrfToken;
     });
-    builder.addCase(signIn.rejected, (state, action) => {
+    builder.addCase(signIn.rejected, (state) => {
       state.loading = false;
     });
     builder.addCase(signOut.pending, (state) => {
@@ -45,7 +45,7 @@ const authSlice = createSlice({
       state.loggedIn = false;
       state.bbSession = undefined;
     });
-    builder.addCase(signOut.rejected, (state, action) => {
+    builder.addCase(signOut.rejected, (state) => {
       state.loading = false;
     });
   },
