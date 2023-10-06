@@ -11,6 +11,7 @@ An automated program to make Blackboard work easier.
 ## Getting Started
 
 ### Features
+
 - ✅ Easy to use
 - ✅ Fast and reliable
 - ✅ Open source
@@ -20,6 +21,7 @@ An automated program to make Blackboard work easier.
 - ✅ No telemetry
 
 ### How to use
+
 1. Download the latest release from the [releases](https://github.com/bb-work-org/bb-work/releases)
 2. Open the installer
 3. Follow the instructions
@@ -66,7 +68,9 @@ yarn tauri dev
 ```
 
 ### Contributing
+
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ### License
+
 [MIT](https://choosealicense.com/licenses/mit/)
