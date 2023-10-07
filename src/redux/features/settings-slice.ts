@@ -1,21 +1,21 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-type SettingsState = {
-	locale: string;
-};
+interface SettingsState {
+  locale: string;
+}
 
 const initialState: SettingsState = {
-	locale: "en",
+  locale: "en",
 };
 
 const settingsSlice = createSlice({
-	name: "settings",
-	initialState,
-	reducers: {
-		setSettings: (state, action: PayloadAction<SettingsState>) => {
-			state.locale = action.payload.locale;
-		},
-	},
+  name: "settings",
+  initialState,
+  reducers: {
+    setSettings: (state, action: PayloadAction<SettingsState>) => {
+      state.locale = action.payload.locale;
+    },
+  },
 });
 
 export const { setSettings } = settingsSlice.actions;
