@@ -10,8 +10,6 @@ export default function CourseActivities({ params }: { params: { id: string } })
   const { data, refetch } = useGetCourseContentsQuery(params.id);
   const [contents, setContents] = useState<ActivityWithChildren[]>();
 
-  console.log(data, params.id);
-
   useEffect(() => {
     if (!data?.results) {
       return;
@@ -27,7 +25,6 @@ export default function CourseActivities({ params }: { params: { id: string } })
         if (content.parentId === parentId) {
           const contentChildren = getChildren(content.id);
 
-          console.log(contentChildren.length, contentChildren);
           children.push({
             ...content,
             children: contentChildren,
@@ -48,7 +45,6 @@ export default function CourseActivities({ params }: { params: { id: string } })
       }
     }
 
-    console.log(courseContents);
     setContents(courseContents);
   }, [data?.results]);
 
