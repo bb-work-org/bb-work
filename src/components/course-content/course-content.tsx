@@ -1,5 +1,6 @@
 import { Article, Assignment, Book, ExpandLess, ExpandMore, Folder, InsertDriveFile, Link } from "@mui/icons-material";
 import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { useRouter } from "next-intl/client";
 import { useState } from "react";
 import { type ActivityWithChildren, type ContentHandler } from "@/@types/activities";
 
@@ -30,6 +31,27 @@ function getIconByType(type: ContentHandler) {
 
 export default function CourseContent({ activity }: { activity: ActivityWithChildren }) {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+
+  function handleCourseRedirect() {
+    let contentType = "courses";
+
+    switch (activity.contentHandler) {
+      case "resource/x-bb-assignment":
+        contentType = "activities";
+        break;
+      case "resource/x-bb-externallink":
+        // todo: handle external link
+        contentType = "";
+        break;
+    }
+
+    if (contentType === "") {
+      return;
+    }
+
+    router.push(`/${contentType}/${activity.courseId}/${activity.id}`);
+  }
 
   return activity.children && activity.children.length > 0 ? (
     <>
@@ -52,7 +74,7 @@ export default function CourseContent({ activity }: { activity: ActivityWithChil
       </Collapse>
     </>
   ) : (
-    <ListItemButton>
+    <ListItemButton onClick={handleCourseRedirect}>
       <ListItemIcon>{getIconByType(activity.contentHandler)}</ListItemIcon>
       <ListItemText primary={activity.title} />
     </ListItemButton>
