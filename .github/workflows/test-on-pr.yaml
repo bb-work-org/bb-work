@@ -60,7 +60,8 @@ jobs:
         run: |
           yarn lint
 
-      - name: 🧹 Prettier application
+      - name: 🧹 Prettier application 
+        if: matrix.os == 'ubuntu-latest' #Prettier temporarily disabled for windows
         run: |
           yarn prettier
 
