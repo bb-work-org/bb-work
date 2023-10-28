@@ -1,5 +1,6 @@
 import { Article, Assignment, Book, ExpandLess, ExpandMore, Folder, InsertDriveFile, Link } from "@mui/icons-material";
 import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { open as openExternal } from "@tauri-apps/api/shell";
 import { useRouter } from "next-intl/client";
 import { useState } from "react";
 import { type ActivityWithChildren, type ContentHandler } from "@/@types/activities";
@@ -41,8 +42,12 @@ export default function CourseContent({ activity }: { activity: ActivityWithChil
         contentType = "activities";
         break;
       case "resource/x-bb-externallink":
-        // todo: handle external link
-        contentType = "";
+        const url = activity.contentDetail["resource/x-bb-externallink"]?.url;
+
+        if (url && url.startsWith("http")) {
+          contentType = "";
+          openExternal(url);
+        }
         break;
       case "resource/x-bb-document":
         contentType = "document";
