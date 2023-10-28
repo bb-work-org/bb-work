@@ -2,15 +2,15 @@
 
 import { Box, CircularProgress } from "@mui/material";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { useDownloadCourseContentQuery, useGetCourseContentAttachmentsQuery } from "@/redux/services/course-api";
+import { useContentAttachmentsQuery, useContentDownloadQuery } from "@/redux/services/course-content-api";
 
 export default function CourseContent({ params: { id, contentId } }: { params: { id: string; contentId: string } }) {
-  const { data: attachments } = useGetCourseContentAttachmentsQuery({
+  const { data: attachments } = useContentAttachmentsQuery({
     contentId,
     courseId: id,
   });
 
-  const { data: downloadResult } = useDownloadCourseContentQuery(
+  const { data: downloadResult } = useContentDownloadQuery(
     attachments?.results?.[0]
       ? {
           courseId: id,
