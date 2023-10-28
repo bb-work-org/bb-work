@@ -30,7 +30,7 @@ function getIconByType(type: ContentHandler) {
 }
 
 export default function CourseContent({ activity }: { activity: ActivityWithChildren }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(activity.parentId === undefined);
   const router = useRouter();
 
   function handleCourseRedirect() {
@@ -43,6 +43,9 @@ export default function CourseContent({ activity }: { activity: ActivityWithChil
       case "resource/x-bb-externallink":
         // todo: handle external link
         contentType = "";
+        break;
+      case "resource/x-bb-document":
+        contentType = "document";
         break;
     }
 
@@ -69,14 +72,16 @@ export default function CourseContent({ activity }: { activity: ActivityWithChil
 
       <Collapse in={open} timeout={"auto"} unmountOnExit>
         <List sx={{ pl: 3 }}>
-          {activity.children?.map((children, index) => <CourseContent activity={children} key={index} />)}
+          {activity.children.map((children, index) => (
+            <CourseContent activity={children} key={index} />
+          ))}
         </List>
       </Collapse>
     </>
   ) : (
     <ListItemButton onClick={handleCourseRedirect}>
       <ListItemIcon>{getIconByType(activity.contentHandler)}</ListItemIcon>
-      <ListItemText primary={activity.title} />
+      <ListItemText primary={activity.title} secondary={activity.contentHandler} />
     </ListItemButton>
   );
 }
