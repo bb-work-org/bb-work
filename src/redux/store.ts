@@ -7,6 +7,7 @@ import { settingsReducer } from "@/redux/features/settings-slice";
 import { activityApi } from "@/redux/services/activity-api";
 import { bannerApi } from "@/redux/services/banner-api";
 import { courseApi } from "@/redux/services/course-api";
+import { courseContentApi } from "@/redux/services/course-content-api";
 import { userApi } from "@/redux/services/user-api";
 import { activitiesReducer } from "./features/activities-slice";
 
@@ -16,6 +17,7 @@ export const rootReducers = combineReducers({
   activities: activitiesReducer,
   [userApi.reducerPath]: userApi.reducer,
   [courseApi.reducerPath]: courseApi.reducer,
+  [courseContentApi.reducerPath]: courseContentApi.reducer,
   [activityApi.reducerPath]: activityApi.reducer,
   [bannerApi.reducerPath]: bannerApi.reducer,
 });
@@ -35,6 +37,7 @@ export const store = configureStore({
     getDefaultMiddleware({ serializableCheck: false }).concat([
       userApi.middleware,
       courseApi.middleware,
+      courseContentApi.middleware,
       activityApi.middleware,
       bannerApi.middleware,
     ]),

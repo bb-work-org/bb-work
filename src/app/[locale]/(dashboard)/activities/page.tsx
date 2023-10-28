@@ -7,14 +7,14 @@ import { ActivityCard } from "@/components/activity-card";
 import { getActivities } from "@/redux/actions/activities-action";
 import { clearActivities } from "@/redux/features/activities-slice";
 import { useAppSelector } from "@/redux/hooks";
-import { useGetCoursesQuery } from "@/redux/services/course-api";
+import { useCoursesQuery } from "@/redux/services/course-api";
 import { useGetMeQuery } from "@/redux/services/user-api";
 import { type AppDispatch } from "@/redux/store";
 
 export default function Activities() {
   const dispatch = useDispatch<AppDispatch>();
   const { data: me } = useGetMeQuery();
-  const { data: courses } = useGetCoursesQuery(me?.id ?? skipToken);
+  const { data: courses } = useCoursesQuery(me?.id ?? skipToken);
   const { activities, loading: activitiesLoading } = useAppSelector((state) => state.activities);
 
   useEffect(() => {

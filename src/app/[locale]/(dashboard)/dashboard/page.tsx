@@ -2,12 +2,12 @@
 import { Grid, Stack } from "@mui/material";
 import { skipToken } from "@reduxjs/toolkit/dist/query/react";
 import { CourseCard } from "@/components/course-card";
-import { useGetCoursesQuery } from "@/redux/services/course-api";
+import { useCoursesQuery } from "@/redux/services/course-api";
 import { useGetMeQuery } from "@/redux/services/user-api";
 
 export default function Activities() {
   const { data } = useGetMeQuery();
-  const { isLoading, data: courses } = useGetCoursesQuery(data?.id ?? skipToken);
+  const { isLoading, data: courses } = useCoursesQuery(data?.id ?? skipToken);
 
   console.log(courses);
 
