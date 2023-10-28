@@ -11,6 +11,12 @@
   "settings": {
     "title": "Settings",
     "language": "Language",
+    "theme": {
+        "title": "Theme",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+    },
     "modals": {
       "language": {
         "title": "Select Language"

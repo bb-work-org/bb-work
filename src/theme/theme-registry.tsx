@@ -5,16 +5,24 @@ import { ThemeProvider } from "@mui/material/styles";
 import { SnackbarProvider } from "notistack";
 import * as React from "react";
 import { useMemo } from "react";
+import { useTheme } from "@/hooks/useTheme";
 import NextAppDirEmotionCacheProvider from "@/theme/emotion-cache";
 import { darkTheme } from "@/theme/schemes/dark-theme";
 import { lightTheme } from "@/theme/schemes/light-theme";
 
 export default function ThemeRegistry({ children }: { children: React.ReactNode }) {
+  const { theme: currentTheme } = useTheme();
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
   const theme = useMemo(() => {
-    return prefersDarkMode ? darkTheme : lightTheme;
-  }, [prefersDarkMode]);
+    return currentTheme === "system"
+      ? prefersDarkMode
+        ? darkTheme
+        : lightTheme
+      : currentTheme === "dark"
+      ? darkTheme
+      : lightTheme;
+  }, [currentTheme, prefersDarkMode]);
 
   return (
     <NextAppDirEmotionCacheProvider options={{ key: "mui" }}>

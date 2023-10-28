@@ -4,6 +4,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "@/redux/custom-storage";
 import { authReducer } from "@/redux/features/auth-slice";
 import { settingsReducer } from "@/redux/features/settings-slice";
+import { themeReducer } from "@/redux/features/theme-slice";
 import { activityApi } from "@/redux/services/activity-api";
 import { bannerApi } from "@/redux/services/banner-api";
 import { courseApi } from "@/redux/services/course-api";
@@ -14,6 +15,7 @@ export const rootReducers = combineReducers({
   auth: authReducer,
   settings: settingsReducer,
   activities: activitiesReducer,
+  theme: themeReducer,
   [userApi.reducerPath]: userApi.reducer,
   [courseApi.reducerPath]: courseApi.reducer,
   [activityApi.reducerPath]: activityApi.reducer,
@@ -23,7 +25,7 @@ export const rootReducers = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "settings"],
+  whitelist: ["auth", "settings", "theme"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);
