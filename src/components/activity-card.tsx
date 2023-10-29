@@ -1,69 +1,71 @@
-import {ListItem, ListItemText, Skeleton as MuiSkeleton, Tooltip} from "@mui/material";
-import {Done, QueryBuilder} from "@mui/icons-material";
-import {Activity} from "@/@types/activities";
-import {useGetAttemptsQuery} from "@/redux/services/activity-api";
-import {PropsWithChildren, ReactNode} from "react";
+import { Clear, Done } from "@mui/icons-material";
+import { ListItem, ListItemText, Skeleton as MuiSkeleton, Tooltip } from "@mui/material";
+import { useFormatter, useNow, useTranslations } from "next-intl";
+import { type PropsWithChildren, type ReactNode } from "react";
+import { type Activity } from "@/@types/activities";
+import { useGetAttemptsQuery } from "@/redux/services/activity-api";
 
 function Skeleton() {
-	return (
-		<Body
-			primary={<MuiSkeleton width={`${Math.random() * 20 + 10}%`} />}
-			secondary={<MuiSkeleton width={`${Math.random() * 30 + 10}%`} />}
-		>
-			<MuiSkeleton variant={"circular"} width={24} height={24} />
-		</Body>
-	)
+  return (
+    <Body
+      primary={<MuiSkeleton width={`${Math.random() * 20 + 10}%`} />}
+      secondary={<MuiSkeleton width={`${Math.random() * 30 + 10}%`} />}
+    >
+      <MuiSkeleton variant={"circular"} width={24} height={24} />
+    </Body>
+  );
 }
 
 function Root({ activity }: { activity: Activity }) {
-	const { isLoading, data } = useGetAttemptsQuery({
-		activityId: activity.contentDetail[activity.contentHandler as "resource/x-bb-assignment"]!.gradingColumn.id,
-		courseId: activity.courseId
-	});
+  const contentDetail = activity.contentDetail[activity.contentHandler as "resource/x-bb-assignment"];
+  const gradingColumn = contentDetail?.gradingColumn;
+  const t = useTranslations("dashboard.activities");
+  const format = useFormatter();
+  const now = useNow();
 
-	return isLoading
-		? <Skeleton />
-		: (
-			<Body
-				primary={activity.title}
-				secondary={activity.id}
-			>
-				{
-					data && Object.keys(data.lookup).length !== 0
-						  ? (
-							<Tooltip title={"Completed"}>
-								<Done/>
-							</Tooltip>
-						  )
-						  : undefined
-				}
+  const { data, isLoading } = useGetAttemptsQuery({
+    activityId: gradingColumn?.id,
+    courseId: activity?.courseId,
+  });
 
-				{
-					activity.adaptiveReleaseRules
-						? (
-							<Tooltip title={new Date(activity.adaptiveReleaseRules.endDate).toLocaleDateString()}>
-								<QueryBuilder />
-							</Tooltip>
-						  )
-						: undefined
-				}
-			</Body>
-		)
+  const endDate = activity.adaptiveReleaseRules?.endDate ?? gradingColumn?.dueDate ?? null;
+  const end = endDate && new Date(endDate);
+
+  const expired = end && end < now;
+  const expireDate = end
+    ? `${expired ? `${t("expired")} - ` : ""} ${format.dateTime(end)} - ${format.relativeTime(end, now)}`
+    : "";
+  const completed = data && Object.keys(data.lookup).length !== 0;
+
+  return isLoading ? (
+    <Skeleton />
+  ) : (
+    <Body primary={activity.title} secondary={expireDate}>
+      {completed ? (
+        <Tooltip title={t("completed")}>
+          <Done />
+        </Tooltip>
+      ) : undefined}
+
+      {expired && !completed ? (
+        <Tooltip title={t("expired")}>
+          <Clear color="error" />
+        </Tooltip>
+      ) : undefined}
+    </Body>
+  );
 }
 
-function Body({ primary, secondary, children }: PropsWithChildren<{ primary: ReactNode; secondary: ReactNode; }>) {
-	return (
-		<ListItem divider>
-			<ListItemText
-				primary={primary}
-				secondary={secondary}
-			/>
-			{children}
-		</ListItem>
-	)
+function Body({ primary, secondary, children }: PropsWithChildren<{ primary: ReactNode; secondary: ReactNode }>) {
+  return (
+    <ListItem divider>
+      <ListItemText primary={primary} secondary={secondary} />
+      {children}
+    </ListItem>
+  );
 }
 
 export const ActivityCard = {
-	Root,
-	Skeleton
-}
+  Root,
+  Skeleton,
+};

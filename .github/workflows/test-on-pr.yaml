@@ -56,6 +56,15 @@ jobs:
           yarn config set network-timeout 300000
           yarn install
 
+      - name: 🧹 Eslint application
+        run: |
+          yarn lint
+
+      - name: 🧹 Prettier application 
+        if: matrix.os == 'ubuntu-latest' #Prettier temporarily disabled for windows
+        run: |
+          yarn prettier
+
       - name: 🧪 Test application (linux)
         if: matrix.os == 'ubuntu-latest'
         continue-on-error: true

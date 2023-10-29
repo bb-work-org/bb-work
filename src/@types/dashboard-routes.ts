@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 
-export type DashboardRoute = {
-	path: string;
-	name: string;
-	icon: ReactNode;
-};
+export interface DashboardRoute {
+  path: string;
+  name: string;
+  icon: ReactNode;
+}

@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* prevent user selection by default */
+*:not(.selection-area) {
+    -ms-user-select: none;
+}
+
+.selection-area {
+    -ms-user-select: text;
+}

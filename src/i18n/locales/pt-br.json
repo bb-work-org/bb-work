@@ -11,6 +11,12 @@
   "settings": {
     "title": "Configurações",
     "language": "Idioma",
+    "theme": {
+      "title": "Tema",
+      "light": "Claro",
+      "dark": "Escuro",
+      "system": "Sistema"
+    },
     "modals": {
       "language": {
         "title": "Selecione seu idioma"
@@ -19,7 +25,12 @@
   },
   "dashboard": {
     "navigation": {
+      "dashBoard": "Dashboard",
       "activities": "Atividades"
+    },
+    "activities": {
+      "completed": "Completo",
+      "expired": "Expirado"
     }
   }
 }
