@@ -12,10 +12,10 @@
     "title": "Settings",
     "language": "Language",
     "theme": {
-        "title": "Theme",
-        "light": "Light",
-        "dark": "Dark",
-        "system": "System"
+      "title": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
     },
     "modals": {
       "language": {
@@ -27,6 +27,10 @@
     "navigation": {
       "dashBoard": "Dashboard",
       "activities": "Activities"
+    },
+    "activities": {
+      "completed": "Completed",
+      "expired": "Expired"
     }
   }
 }
