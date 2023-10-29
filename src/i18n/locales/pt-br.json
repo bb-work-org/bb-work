@@ -27,6 +27,10 @@
     "navigation": {
       "dashBoard": "Dashboard",
       "activities": "Atividades"
+    },
+    "activities": {
+      "completed": "Completo",
+      "expired": "Expirado"
     }
   }
 }

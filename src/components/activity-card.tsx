@@ -1,6 +1,7 @@
-import { Done, QueryBuilder } from "@mui/icons-material";
+import { Clear, Done } from "@mui/icons-material";
 import { ListItem, ListItemText, Skeleton as MuiSkeleton, Tooltip } from "@mui/material";
-import { type PropsWithChildren, type ReactNode, useCallback } from "react";
+import { useFormatter, useNow, useTranslations } from "next-intl";
+import { type PropsWithChildren, type ReactNode } from "react";
 import { type Activity } from "@/@types/activities";
 import { useGetAttemptsQuery } from "@/redux/services/activity-api";
 
@@ -16,33 +17,39 @@ function Skeleton() {
 }
 
 function Root({ activity }: { activity: Activity }) {
-  const gradingColumn = activity.contentDetail[activity.contentHandler as "resource/x-bb-assignment"]?.gradingColumn;
-  const { isLoading, data } = useGetAttemptsQuery({
+  const contentDetail = activity.contentDetail[activity.contentHandler as "resource/x-bb-assignment"];
+  const gradingColumn = contentDetail?.gradingColumn;
+  const t = useTranslations("dashboard.activities");
+  const format = useFormatter();
+  const now = useNow();
+
+  const { data, isLoading } = useGetAttemptsQuery({
     activityId: gradingColumn?.id,
     courseId: activity?.courseId,
   });
 
-  const getExpireDate = useCallback((endDate: string) => {
-    const now = new Date();
-    const end = new Date(endDate);
-    const diff = new Date(end.getTime() - now.getTime());
+  const endDate = activity.adaptiveReleaseRules?.endDate ?? gradingColumn?.dueDate ?? null;
+  const end = endDate && new Date(endDate);
 
-    return `${end.toLocaleDateString()} - ${diff.getDate()} days left`; // need i18n
-  }, []);
+  const expired = end && end < now;
+  const expireDate = end
+    ? `${expired ? `${t("expired")} - ` : ""} ${format.dateTime(end)} - ${format.relativeTime(end, now)}`
+    : "";
+  const completed = data && Object.keys(data.lookup).length !== 0;
 
   return isLoading ? (
     <Skeleton />
   ) : (
-    <Body primary={activity.title} secondary={activity.id}>
-      {data && Object.keys(data.lookup).length !== 0 ? (
-        <Tooltip title={"Completed"}>
+    <Body primary={activity.title} secondary={expireDate}>
+      {completed ? (
+        <Tooltip title={t("completed")}>
           <Done />
         </Tooltip>
       ) : undefined}
 
-      {activity.adaptiveReleaseRules ?? gradingColumn?.dueDate ? (
-        <Tooltip title={getExpireDate(activity?.adaptiveReleaseRules?.endDate ?? gradingColumn?.dueDate ?? "")}>
-          <QueryBuilder />
+      {expired && !completed ? (
+        <Tooltip title={t("expired")}>
+          <Clear color="error" />
         </Tooltip>
       ) : undefined}
     </Body>
