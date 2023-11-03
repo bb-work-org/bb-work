@@ -15,11 +15,12 @@ export default async function RootLayout({
   params: { locale },
 }: PropsWithChildren<{ params: { locale: string } }>) {
   const localeMessages = await getTranslations(locale);
+  const timeZone = "America/Sao_Paulo";
 
   return (
     <html lang={locale}>
       <body>
-        <NextIntlClientProvider locale={locale} messages={localeMessages}>
+        <NextIntlClientProvider timeZone={timeZone} locale={locale} messages={localeMessages}>
           <Providers>
             <ThemeRegistry>{children}</ThemeRegistry>
           </Providers>
