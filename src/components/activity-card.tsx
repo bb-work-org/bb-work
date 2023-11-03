@@ -21,7 +21,6 @@ function Root({ activity }: { activity: Activity }) {
     activity.contentDetail[activity.contentHandler as "resource/x-bb-assignment" | "resource/x-bb-asmt-test-link"];
   const isAssignment = (x: unknown | undefined): x is ResourceXBbAssignment =>
     activity.contentHandler === "resource/x-bb-assignment";
-  console.log("Content Detail", contentDetail);
   const gradingColumn = isAssignment(contentDetail) ? contentDetail?.gradingColumn : contentDetail?.test?.gradingColumn;
   const t = useTranslations("dashboard.activities");
   const format = useFormatter();

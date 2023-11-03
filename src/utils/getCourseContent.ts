@@ -15,10 +15,10 @@ function getBBSession() {
   return bbSession;
 }
 
-async function getSimpleCourseContent(courseId: string, recursive = true) {
+async function getSimpleCourseContent(courseId: string, id = "", recursive = true) {
   const bbSession = getBBSession();
 
-  const response = await fetch<ActivityResult>(getApi(`/learn/api/v1/courses/${courseId}/contents`), {
+  const response = await fetch<ActivityResult>(getApi(`/learn/api/v1/courses/${courseId}/contents/${id}`), {
     query: {
       recursive: recursive.toString(),
     },
@@ -50,10 +50,10 @@ async function getComplexCourseContent(courseId: string) {
   } satisfies ActivityResult;
 
   async function getRecursiveContent(id: string) {
-    let content = await getSimpleCourseContent(id).catch(() => null);
+    let content = await getSimpleCourseContent(courseId, id).catch(() => null);
 
     if (!content) {
-      content = await getSimpleCourseContent(id, false);
+      content = await getSimpleCourseContent(courseId, id, false);
     }
 
     if (!content || !content.results) {
@@ -79,7 +79,7 @@ export async function getCourseContent(courseId: string) {
     return getComplexCourseContent(courseId);
   });
 
-  console.log(result);
+  console.log(result.results?.map((item) => item.title));
 
   return result;
 }
