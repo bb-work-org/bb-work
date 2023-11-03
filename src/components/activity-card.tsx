@@ -2,7 +2,7 @@ import { Clear, Done } from "@mui/icons-material";
 import { ListItem, ListItemText, Skeleton as MuiSkeleton, Tooltip } from "@mui/material";
 import { useFormatter, useNow, useTranslations } from "next-intl";
 import { type PropsWithChildren, type ReactNode } from "react";
-import { type Activity } from "@/@types/activities";
+import { type Activity, ResourceXBbAssignment } from "@/@types/activities";
 import { useGetAttemptsQuery } from "@/redux/services/activity-api";
 
 function Skeleton() {
@@ -17,8 +17,12 @@ function Skeleton() {
 }
 
 function Root({ activity }: { activity: Activity }) {
-  const contentDetail = activity.contentDetail[activity.contentHandler as "resource/x-bb-assignment"];
-  const gradingColumn = contentDetail?.gradingColumn;
+  const contentDetail =
+    activity.contentDetail[activity.contentHandler as "resource/x-bb-assignment" | "resource/x-bb-asmt-test-link"];
+  const isAssignment = (x: unknown | undefined): x is ResourceXBbAssignment =>
+    activity.contentHandler === "resource/x-bb-assignment";
+  console.log("Content Detail", contentDetail);
+  const gradingColumn = isAssignment(contentDetail) ? contentDetail?.gradingColumn : contentDetail?.test?.gradingColumn;
   const t = useTranslations("dashboard.activities");
   const format = useFormatter();
   const now = useNow();
@@ -35,7 +39,7 @@ function Root({ activity }: { activity: Activity }) {
   const expireDate = end
     ? `${expired ? `${t("expired")} - ` : ""} ${format.dateTime(end)} - ${format.relativeTime(end, now)}`
     : "";
-  const completed = data && Object.keys(data.lookup).length !== 0;
+  const completed = data?.lookup && Object.keys(data.lookup).length !== 0;
 
   return isLoading ? (
     <Skeleton />

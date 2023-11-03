@@ -32,8 +32,11 @@ const activitiesSlice = createSlice({
 
       state.activities = [
         ...state.activities,
-        ...(action.payload.data.results?.filter((activity) => activity.contentHandler === "resource/x-bb-assignment") ??
-          []),
+        ...(action.payload.results?.filter(
+          (activity) =>
+            activity.contentHandler === "resource/x-bb-assignment" ||
+            activity.contentHandler === "resource/x-bb-asmt-test-link"
+        ) ?? []),
       ];
     });
     builder.addCase(getActivities.rejected, (state) => {

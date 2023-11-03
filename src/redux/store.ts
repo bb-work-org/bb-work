@@ -50,3 +50,4 @@ setupListeners(store.dispatch);
 export const persist = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export const getState: () => RootState = store.getState;

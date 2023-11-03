@@ -48,13 +48,15 @@ export type ContentHandler =
   | "resource/x-bb-assignment"
   | "resource/x-bb-lesson"
   | "resource/x-bb-document"
-  | "resource/x-bb-externallink";
+  | "resource/x-bb-externallink"
+  | "resource/x-bb-asmt-test-link";
 
 export interface ContentDetail {
   "resource/x-bb-folder"?: ResourceXBbFolder;
   "resource/x-bb-file"?: ResourceXBbFile;
   "resource/x-bb-assignment"?: ResourceXBbAssignment;
   "resource/x-bb-externallink"?: ResourceXBbExternallink;
+  "resource/x-bb-asmt-test-link"?: ResourceXBbAsmtTestLink;
 }
 
 export interface ResourceXBbFolder {
@@ -216,4 +218,107 @@ export interface Dates {
 export interface AdaptiveReleaseRules {
   endDate: string;
   startDate: never;
+}
+
+export interface ResourceXBbAsmtTestLink {
+  safeAssignOptions: SafeAssignOptions;
+  test: Test;
+}
+
+export interface SafeAssignOptions {
+  checkAttempts: boolean;
+  canStudentViewReports: boolean;
+  excludeSubmissions: boolean;
+  globalSearch: boolean;
+}
+
+export interface Test {
+  deployedAssessmentType: string;
+  assessment: Assessment;
+  deploymentSettings: DeploymentSettings;
+  gradingColumn: GradingColumn;
+  permissions: Permissions;
+  exceptions: never[];
+}
+
+export interface Assessment {
+  gradableItemId: string;
+  alignmentCount: number;
+  title: string;
+  instructions: Instructions;
+  responseCount: number;
+  description: Description;
+  type: string;
+  lastModifiedDate: string;
+  extraCreditPoints: number;
+  hasAnswerableQuestions: boolean;
+  hasPresentationOnlyQuestions: boolean;
+  hasAutomatedQuestionFeedback: boolean;
+  hasResponses: boolean;
+  isRemoveable: boolean;
+  totalPoints: number;
+  questionCount: number;
+  hasPartialAndNegativeCreditQuestions: boolean;
+  id: string;
+}
+
+export interface Instructions {
+  rawText: string;
+  displayText: string;
+  webLocation: string;
+  fileLocation: string;
+}
+
+export interface Description {
+  rawText: string;
+  displayText: string;
+  webLocation: string;
+  fileLocation: string;
+}
+
+export interface DeploymentSettings {
+  attemptCount: number;
+  isLateAttemptCreationDisallowed: boolean;
+  allowStudentSubmission: boolean;
+  timerCompletion: string;
+  feedbackSettings: FeedbackSettings;
+  isDueDateEnforced: boolean;
+  isRandomizationOfAnswersRequired: string;
+  isBacktrackingProhibited: boolean;
+  deliveryType: string;
+  isCollectExternalSubmissions: boolean;
+  isRandomizationOfPagesRequired: boolean;
+  isKeepFirstPageFirstRequired: boolean;
+  isSecureBrowserRequiredToTake: boolean;
+  isSecureBrowserRequiredToReview: boolean;
+  isWebcamRequired: boolean;
+  isRandomizationOfQuestionsRequired: boolean;
+  isScoreShown: boolean;
+  isUserAnswerShown: boolean;
+  isCorrectAnswerShown: boolean;
+  isIpFilterEnabled: boolean;
+  isCompletionForced: boolean;
+  lastModificationDate: never;
+  isPasswordRequired: boolean;
+  isFeedbackShown: boolean;
+  isDescriptionShown: boolean;
+  isInstructionShown: boolean;
+  isStartedInExternalWindow: boolean;
+  announcementTime: never;
+  id: string;
+}
+
+export interface FeedbackSettings {
+  as: As;
+  ns: Ns;
+}
+
+export interface As {
+  options: string[];
+  associatedDate: never;
+}
+
+export interface Ns {
+  options: never[];
+  associatedDate: never;
 }
