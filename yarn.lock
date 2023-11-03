@@ -2631,35 +2631,6 @@
     "@storybook/client-logger" "7.5.2"
     "@storybook/manager-api" "7.5.2"
 
-"@storybook/blocks@7.4.5":
-  version "7.4.5"
-  resolved "https://registry.yarnpkg.com/@storybook/blocks/-/blocks-7.4.5.tgz#bf95768eeb7642bb90c248e1e0617899c8b11b12"
-  integrity sha512-FhAIkCT2HrzJcKsC3mL5+uG3GrbS23mYAT1h3iyPjCliZzxfCCI9UCMUXqYx4Z/FmAGJgpsQQXiBFZuoTHO9aQ==
-  dependencies:
-    "@storybook/channels" "7.4.5"
-    "@storybook/client-logger" "7.4.5"
-    "@storybook/components" "7.4.5"
-    "@storybook/core-events" "7.4.5"
-    "@storybook/csf" "^0.1.0"
-    "@storybook/docs-tools" "7.4.5"
-    "@storybook/global" "^5.0.0"
-    "@storybook/manager-api" "7.4.5"
-    "@storybook/preview-api" "7.4.5"
-    "@storybook/theming" "7.4.5"
-    "@storybook/types" "7.4.5"
-    "@types/lodash" "^4.14.167"
-    color-convert "^2.0.1"
-    dequal "^2.0.2"
-    lodash "^4.17.21"
-    markdown-to-jsx "^7.1.8"
-    memoizerific "^1.11.3"
-    polished "^4.2.2"
-    react-colorful "^5.1.2"
-    telejson "^7.2.0"
-    tocbot "^4.20.1"
-    ts-dedent "^2.0.0"
-    util-deprecate "^1.0.2"
-
 "@storybook/blocks@7.4.6":
   version "7.4.6"
   resolved "https://registry.yarnpkg.com/@storybook/blocks/-/blocks-7.4.6.tgz#03134130fa20d6c36c6985008bc2c38892c5b8f5"
@@ -2676,6 +2647,35 @@
     "@storybook/preview-api" "7.4.6"
     "@storybook/theming" "7.4.6"
     "@storybook/types" "7.4.6"
+    "@types/lodash" "^4.14.167"
+    color-convert "^2.0.1"
+    dequal "^2.0.2"
+    lodash "^4.17.21"
+    markdown-to-jsx "^7.1.8"
+    memoizerific "^1.11.3"
+    polished "^4.2.2"
+    react-colorful "^5.1.2"
+    telejson "^7.2.0"
+    tocbot "^4.20.1"
+    ts-dedent "^2.0.0"
+    util-deprecate "^1.0.2"
+
+"@storybook/blocks@7.5.2":
+  version "7.5.2"
+  resolved "https://registry.yarnpkg.com/@storybook/blocks/-/blocks-7.5.2.tgz#625105555911ebb1415a3e5f4aeedf38e608a340"
+  integrity sha512-Tf6XE/YcnWQVBJRcJWJzhkahjSymv6QZuxMAiKFD8v48QRJ8kTxz1tBN9676Ux+l1WwtVWxwvd/0kRKKxE70wQ==
+  dependencies:
+    "@storybook/channels" "7.5.2"
+    "@storybook/client-logger" "7.5.2"
+    "@storybook/components" "7.5.2"
+    "@storybook/core-events" "7.5.2"
+    "@storybook/csf" "^0.1.0"
+    "@storybook/docs-tools" "7.5.2"
+    "@storybook/global" "^5.0.0"
+    "@storybook/manager-api" "7.5.2"
+    "@storybook/preview-api" "7.5.2"
+    "@storybook/theming" "7.5.2"
+    "@storybook/types" "7.5.2"
     "@types/lodash" "^4.14.167"
     color-convert "^2.0.1"
     dequal "^2.0.2"
@@ -2944,7 +2944,7 @@
     use-resize-observer "^9.1.0"
     util-deprecate "^1.0.2"
 
-"@storybook/components@^7.0.12":
+"@storybook/components@7.5.2", "@storybook/components@^7.0.12":
   version "7.5.2"
   resolved "https://registry.yarnpkg.com/@storybook/components/-/components-7.5.2.tgz#5409236b5b1b5d0189707cd76ea99220e3673884"
   integrity sha512-OP+o6AoxoQDbqjk/jdQ1arlc1T8601eCL+rS1dJY9EtAFq7Z0LEFtafhEW/Lx8FotfVGjfCNptH9ODhHU6e5Jw==
@@ -3063,7 +3063,7 @@
     resolve-from "^5.0.0"
     ts-dedent "^2.0.0"
 
-"@storybook/core-common@^7.0.12":
+"@storybook/core-common@7.5.2", "@storybook/core-common@^7.0.12":
   version "7.5.2"
   resolved "https://registry.yarnpkg.com/@storybook/core-common/-/core-common-7.5.2.tgz#7fef2bdb0c9d83ead2a9b5e1f479edb3106c6098"
   integrity sha512-js7fIH4wHS08dBuIVsr3JnwMtKn5O1Izc/Zor4t6PntLWkGGX4X/GxbOkasGX5SkCT1qUtB9RpdPd1sUkLhIgw==
@@ -3283,6 +3283,18 @@
     "@storybook/core-common" "7.5.1"
     "@storybook/preview-api" "7.5.1"
     "@storybook/types" "7.5.1"
+    "@types/doctrine" "^0.0.3"
+    doctrine "^3.0.0"
+    lodash "^4.17.21"
+
+"@storybook/docs-tools@7.5.2":
+  version "7.5.2"
+  resolved "https://registry.yarnpkg.com/@storybook/docs-tools/-/docs-tools-7.5.2.tgz#ae59ac6b061c5471ed70f461f61d4d24c8fd8c51"
+  integrity sha512-mBiZFhzMA2ub7wX0ho3UqKqKXO+xUi/rqb4KV4PihLKlhThEdzKyYrIZO4W90NOmlp1yUJJcjG8D8SUPuHQoTw==
+  dependencies:
+    "@storybook/core-common" "7.5.2"
+    "@storybook/preview-api" "7.5.2"
+    "@storybook/types" "7.5.2"
     "@types/doctrine" "^0.0.3"
     doctrine "^3.0.0"
     lodash "^4.17.21"
@@ -3549,7 +3561,7 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/preview-api@^7.0.12":
+"@storybook/preview-api@7.5.2", "@storybook/preview-api@^7.0.12":
   version "7.5.2"
   resolved "https://registry.yarnpkg.com/@storybook/preview-api/-/preview-api-7.5.2.tgz#72512c11369975904894c6f50036f10d3c329e59"
   integrity sha512-rpmHR/09UBSnorDBTcE7JgHUQjZLO146NCI+vbI7Pqfb4QX/8lhwkFr4cuHRAR16mv6DAJbDVoPETO0Z/CH9aw==
