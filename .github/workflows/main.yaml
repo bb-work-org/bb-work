@@ -3,8 +3,6 @@ name: Build BBWork app.
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
@@ -67,9 +65,13 @@ jobs:
 
       - name: 🏗️ 📄 Build frontend
         run: yarn build
+        env:
+          NEXT_PUBLIC_BLACKBOARD_URL: ${{ secrets.NEXT_PUBLIC_BLACKBOARD_URL }}
 
       - name: 🏗️ 💽 Build application
         run: yarn tauri build
+        env:
+          NEXT_PUBLIC_BLACKBOARD_URL: ${{ secrets.NEXT_PUBLIC_BLACKBOARD_URL }}
 
       - name: 🧪 Test application (linux)
         if: matrix.os == 'ubuntu-latest'
